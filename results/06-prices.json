@@ -18,7 +18,7 @@
     "name": "Amazon RDS for PostgreSQL (us-east-1)",
     "plan": "db.t4g.medium, Single-AZ, gp3",
     "ha": false,
-    "monthlyUsd": 53.2,
+    "monthlyUsd": 52.86,
     "note": "Burstable: sustained CPU above baseline adds $0.075 per vCPU-hour."
    },
    {
@@ -81,7 +81,7 @@
     "name": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
     "plan": "Enterprise, 2 vCPU / 4 GB, zonal, SSD",
     "ha": false,
-    "monthlyUsd": 88.65,
+    "monthlyUsd": 88.73,
     "note": ""
    },
    {
@@ -121,7 +121,7 @@
     "ha": false,
     "monthlyUsd": 149.74,
     "note": "No generally available HA standby; a read replica does not take over on its own.",
-    "vsRds": 0.51
+    "vsRds": 0.52
    },
    {
     "size": "M",
@@ -131,7 +131,7 @@
     "ha": true,
     "monthlyUsd": 196.16,
     "note": "Replicas give automatic failover, but their price is not published: we assumed one costs the same as the primary instance, storage counted once.",
-    "vsRds": 0.67
+    "vsRds": 0.68
    },
    {
     "size": "M",
@@ -141,7 +141,7 @@
     "ha": false,
     "monthlyUsd": 224.76,
     "note": "No standby compute: storage is replicated, and a failed compute is restarted. Launch has no uptime SLA; on Scale this is $394. Restore history not included.",
-    "vsRds": 0.77
+    "vsRds": 0.78
    },
    {
     "size": "M",
@@ -149,9 +149,9 @@
     "name": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
     "plan": "Enterprise, 2 vCPU / 8 GB, regional HA, SSD",
     "ha": true,
-    "monthlyUsd": 265.68,
+    "monthlyUsd": 265.94,
     "note": "",
-    "vsRds": 0.91
+    "vsRds": 0.92
    },
    {
     "size": "M",
@@ -159,7 +159,7 @@
     "name": "Amazon RDS for PostgreSQL (us-east-1)",
     "plan": "db.m7g.large, Multi-AZ (one standby), gp3",
     "ha": true,
-    "monthlyUsd": 292.01,
+    "monthlyUsd": 289.02,
     "note": "",
     "vsRds": 1
    },
@@ -171,7 +171,7 @@
     "ha": true,
     "monthlyUsd": 300,
     "note": "HA doubles the cluster price; whether it doubles storage is not stated. Counted once; $320 if doubled.",
-    "vsRds": 1.03
+    "vsRds": 1.04
    },
    {
     "size": "M",
@@ -181,7 +181,7 @@
     "ha": true,
     "monthlyUsd": 303.7,
     "note": "New Standard clusters cannot have more than 4 GiB of RAM or a standby (new accounts since 15 Oct 2026, all accounts from 30 Nov 2026).",
-    "vsRds": 1.04
+    "vsRds": 1.05
    },
    {
     "size": "M",
@@ -191,7 +191,7 @@
     "ha": true,
     "monthlyUsd": 318.76,
     "note": "HA bills compute and storage twice; 200 GB (186.3 GiB) bills as a 256 GiB disk.",
-    "vsRds": 1.09
+    "vsRds": 1.1
    },
    {
     "size": "M",
@@ -201,7 +201,7 @@
     "ha": true,
     "monthlyUsd": 357.25,
     "note": "Storage is billed on all three nodes, less 10 GB each.",
-    "vsRds": 1.22
+    "vsRds": 1.24
    },
    {
     "size": "M",
@@ -211,7 +211,7 @@
     "ha": true,
     "monthlyUsd": 422.96,
     "note": "Plus $0.20 per million I/O requests: I/O-Optimized is cheaper above about 731 million a month.",
-    "vsRds": 1.45
+    "vsRds": 1.46
    },
    {
     "size": "M",
@@ -221,7 +221,7 @@
     "ha": true,
     "monthlyUsd": 465.3,
     "note": "Disk grows in 10 GiB steps: 200 GB is 186.3 GiB, so 175 + 20 GiB.",
-    "vsRds": 1.59
+    "vsRds": 1.61
    },
    {
     "size": "M",
@@ -231,7 +231,7 @@
     "ha": true,
     "monthlyUsd": 569.14,
     "note": "No 8 GB class: r7g.large has 16 GB.",
-    "vsRds": 1.95
+    "vsRds": 1.97
    }
   ],
   "L": [
@@ -243,7 +243,7 @@
     "ha": false,
     "monthlyUsd": 549.26,
     "note": "No generally available HA standby.",
-    "vsRds": 0.45
+    "vsRds": 0.46
    },
    {
     "size": "L",
@@ -253,7 +253,7 @@
     "ha": true,
     "monthlyUsd": 840.64,
     "note": "Replica price assumed equal to the primary instance, storage counted once.",
-    "vsRds": 0.69
+    "vsRds": 0.7
    },
    {
     "size": "L",
@@ -263,7 +263,7 @@
     "ha": false,
     "monthlyUsd": 969.04,
     "note": "No standby compute. Launch has no uptime SLA; on Scale ($0.222 per CU-hour) this is $1,646. Restore history not included.",
-    "vsRds": 0.8
+    "vsRds": 0.81
    },
    {
     "size": "L",
@@ -271,9 +271,9 @@
     "name": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
     "plan": "Enterprise, 8 vCPU / 32 GB, regional HA, SSD",
     "ha": true,
-    "monthlyUsd": 1126.07,
+    "monthlyUsd": 1126.3,
     "note": "",
-    "vsRds": 0.93
+    "vsRds": 0.94
    },
    {
     "size": "L",
@@ -281,7 +281,7 @@
     "name": "Amazon RDS for PostgreSQL (us-east-1)",
     "plan": "db.m7g.2xlarge, Multi-AZ (one standby), gp3",
     "ha": true,
-    "monthlyUsd": 1214.04,
+    "monthlyUsd": 1198.4,
     "note": "",
     "vsRds": 1
    },
@@ -293,7 +293,7 @@
     "ha": true,
     "monthlyUsd": 1220,
     "note": "Storage counted once; $1,320 if HA doubles it.",
-    "vsRds": 1
+    "vsRds": 1.02
    },
    {
     "size": "L",
@@ -303,7 +303,7 @@
     "ha": true,
     "monthlyUsd": 1256.2,
     "note": "",
-    "vsRds": 1.03
+    "vsRds": 1.05
    },
    {
     "size": "L",
@@ -313,7 +313,7 @@
     "ha": true,
     "monthlyUsd": 1275.04,
     "note": "1 TB (931.3 GiB) bills as a 1 TiB disk.",
-    "vsRds": 1.05
+    "vsRds": 1.06
    },
    {
     "size": "L",
@@ -323,7 +323,7 @@
     "ha": true,
     "monthlyUsd": 1506.25,
     "note": "PS-320 HA (4 vCPU, 32 GB) would be about $941 with storage.",
-    "vsRds": 1.24
+    "vsRds": 1.26
    },
    {
     "size": "L",
@@ -333,7 +333,7 @@
     "ha": true,
     "monthlyUsd": 1714.76,
     "note": "Plus $0.20 per million I/O requests: I/O-Optimized is cheaper above about 3 billion a month.",
-    "vsRds": 1.41
+    "vsRds": 1.43
    },
    {
     "size": "L",
@@ -343,7 +343,7 @@
     "ha": true,
     "monthlyUsd": 2323.02,
     "note": "64 GB RAM, twice the reference size.",
-    "vsRds": 1.91
+    "vsRds": 1.94
    },
    {
     "size": "L",
@@ -352,8 +352,8 @@
     "plan": "business-64 (8 CPU, 61 GB, 1,000 GB included, one standby)",
     "ha": true,
     "monthlyUsd": 2500.25,
-    "note": "No 8 CPU / 32 GB plan. business-32 (4 CPU, 30 GB) plus 300 GB would be $1,640.",
-    "vsRds": 2.06
+    "note": "No 8 CPU / 32 GB plan. business-32 (4 CPU, 30 GB, 700 GiB) plus 240 GiB would be about $1,580.",
+    "vsRds": 2.09
    }
   ]
  }

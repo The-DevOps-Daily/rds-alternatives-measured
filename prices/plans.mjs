@@ -19,9 +19,9 @@ const up = (x, step) => Math.ceil(x / step) * step;
 
 export const plans = {
   rds: {
-    S: { plan: "db.t4g.medium, Single-AZ, gp3", ha: false, lines: [["rds.db.t4g.medium.singleAZ.hourly", HOURS], ["rds.gp3.singleAZ.gbMonth", 50]], note: "Burstable: sustained CPU above baseline adds $0.075 per vCPU-hour." },
-    M: { plan: "db.m7g.large, Multi-AZ (one standby), gp3", ha: true, lines: [["rds.db.m7g.large.multiAZ.hourly", HOURS], ["rds.gp3.multiAZ.gbMonth", 200]] },
-    L: { plan: "db.m7g.2xlarge, Multi-AZ (one standby), gp3", ha: true, lines: [["rds.db.m7g.2xlarge.multiAZ.hourly", HOURS], ["rds.gp3.multiAZ.gbMonth", 1000]] },
+    S: { plan: "db.t4g.medium, Single-AZ, gp3", ha: false, lines: [["rds.db.t4g.medium.singleAZ.hourly", HOURS], ["rds.gp3.singleAZ.gbMonth", Math.ceil(GIB(50))]], note: "Burstable: sustained CPU above baseline adds $0.075 per vCPU-hour." },
+    M: { plan: "db.m7g.large, Multi-AZ (one standby), gp3", ha: true, lines: [["rds.db.m7g.large.multiAZ.hourly", HOURS], ["rds.gp3.multiAZ.gbMonth", Math.ceil(GIB(200))]] },
+    L: { plan: "db.m7g.2xlarge, Multi-AZ (one standby), gp3", ha: true, lines: [["rds.db.m7g.2xlarge.multiAZ.hourly", HOURS], ["rds.gp3.multiAZ.gbMonth", Math.ceil(GIB(1000))]] },
   },
   aurora: {
     S: { plan: "db.t4g.medium, one instance, I/O-Optimized", ha: false, lines: [["aurora.db.t4g.medium.ioOptimized.hourly", HOURS], ["aurora.storage.ioOptimized.gbMonth", 50]], note: "Aurora Standard is cheaper per hour but adds $0.20 per million I/O requests." },
@@ -34,9 +34,9 @@ export const plans = {
     L: { plan: "db.r7g.2xlarge writer + replica, Aurora Standard, before I/O", ha: true, lines: [["aurora.db.r7g.2xlarge.standard.hourly", 2 * HOURS], ["aurora.storage.standard.gbMonth", 1000]], note: "Plus $0.20 per million I/O requests: I/O-Optimized is cheaper above about 3 billion a month." },
   },
   cloudsql: {
-    S: { plan: "Enterprise, 2 vCPU / 4 GB, zonal, SSD", ha: false, lines: [["cloudsql.enterprise.vcpuHour", 2 * HOURS], ["cloudsql.enterprise.memGibHour", 4 * HOURS], ["cloudsql.ssd.gbMonth", GIB(50)]] },
-    M: { plan: "Enterprise, 2 vCPU / 8 GB, regional HA, SSD", ha: true, lines: [["cloudsql.enterprise.ha.vcpuHour", 2 * HOURS], ["cloudsql.enterprise.ha.memGibHour", 8 * HOURS], ["cloudsql.ssd.ha.gbMonth", GIB(200)]] },
-    L: { plan: "Enterprise, 8 vCPU / 32 GB, regional HA, SSD", ha: true, lines: [["cloudsql.enterprise.ha.vcpuHour", 8 * HOURS], ["cloudsql.enterprise.ha.memGibHour", 32 * HOURS], ["cloudsql.ssd.ha.gbMonth", GIB(1000)]] },
+    S: { plan: "Enterprise, 2 vCPU / 4 GB, zonal, SSD", ha: false, lines: [["cloudsql.enterprise.vcpuHour", 2 * HOURS], ["cloudsql.enterprise.memGibHour", 4 * HOURS], ["cloudsql.ssd.gbMonth", Math.ceil(GIB(50))]] },
+    M: { plan: "Enterprise, 2 vCPU / 8 GB, regional HA, SSD", ha: true, lines: [["cloudsql.enterprise.ha.vcpuHour", 2 * HOURS], ["cloudsql.enterprise.ha.memGibHour", 8 * HOURS], ["cloudsql.ssd.ha.gbMonth", Math.ceil(GIB(200))]] },
+    L: { plan: "Enterprise, 8 vCPU / 32 GB, regional HA, SSD", ha: true, lines: [["cloudsql.enterprise.ha.vcpuHour", 8 * HOURS], ["cloudsql.enterprise.ha.memGibHour", 32 * HOURS], ["cloudsql.ssd.ha.gbMonth", Math.ceil(GIB(1000))]] },
   },
   azure: {
     S: { plan: "Burstable B2s, Premium SSD", ha: false, lines: [["azure.B2s.hourly", HOURS], ["azure.storage.premiumSSD.gbMonth", 64]], note: "Premium SSD comes in fixed sizes: 50 GB (46.6 GiB) bills as 64 GiB. Burstable servers cannot have HA." },
@@ -66,7 +66,7 @@ export const plans = {
   aiven: {
     S: { plan: "startup-4 (2 CPU, 4 GB, 80 GB included)", ha: false, lines: [["aiven.startup-4.hourly", HOURS]] },
     M: { plan: "business-8 (2 CPU, 8 GB, 175 GiB + 20 GiB, one standby)", ha: true, lines: [["aiven.business-8.hourly", HOURS], ["aiven.extraDisk.business.gbHour", up(GIB(200) - 175, 10) * HOURS]], note: "Disk grows in 10 GiB steps: 200 GB is 186.3 GiB, so 175 + 20 GiB." },
-    L: { plan: "business-64 (8 CPU, 61 GB, 1,000 GB included, one standby)", ha: true, lines: [["aiven.business-64.hourly", HOURS]], note: "No 8 CPU / 32 GB plan. business-32 (4 CPU, 30 GB) plus 300 GB would be $1,640." },
+    L: { plan: "business-64 (8 CPU, 61 GB, 1,000 GB included, one standby)", ha: true, lines: [["aiven.business-64.hourly", HOURS]], note: "No 8 CPU / 32 GB plan. business-32 (4 CPU, 30 GB, 700 GiB) plus 240 GiB would be about $1,580." },
   },
   planetscale: {
     S: { plan: "PS-160, single node (2 vCPU, 16 GB)", ha: false, lines: [["planetscale.PS-160-ARM.single.monthly", 1], ["planetscale.storage.ebs.gbMonth", 50 - 10]], note: "8 GB of RAM per vCPU, so 2 vCPU means 16 GB. PS-40 (1/2 vCPU, 4 GB) would be $33." },

@@ -22,7 +22,7 @@ TLS is verified everywhere. The Node.js client checks the server certificate aga
 
 The Neon stages need a paid plan as written: they turn scale to zero off (`suspend_timeout_seconds: 0`), which the Free plan does not allow, and the 10M-row table is bigger than the Free plan's 1 GB per project.
 
-The dataset is one pgbench-style `accounts` table with a primary key: an integer key, two integer columns and an 84-character filler of md5 hex, generated on the server. Real schemas have many tables and indexes, and `pg_upgrade` time grows with the number of objects, so read the upgrade times as a lower bound for a small schema.
+The dataset is one pgbench-style `accounts` table with a primary key: an integer key, two integer columns and an 84-character filler of md5 hex, generated on the server. Real schemas have many tables and indexes, and `pg_upgrade` time grows with the number of objects, so read the upgrade times as illustrative measurements for this host and a one-table schema.
 
 Every stage creates its cloud resources with a `bench-rdsalt-` name and deletes them at the end. `deleteProject` refuses to delete a Neon project without that prefix.
 
@@ -68,7 +68,7 @@ Reference sizes: S is about 2 vCPU / 4 GB with 50 GB and one node; M is about 2 
 - The local upgrade numbers are for one 4 vCPU droplet with local SSD. `downMs` runs from stopping the old server to the first answered connection on the new one; `upgradeMs` is the `pg_upgrade` command alone; `probe` is what a client opening a new connection every 250 ms saw. A managed in-place upgrade wraps the same step in snapshots, checks and a restart; the providers' own estimates are quoted in the post.
 - The `rollback` text recorded in stage 4 results says swap mode leaves the old cluster usable until the new one starts. That is wrong: swap mode changes the old cluster once it starts moving files. Link mode is the one that holds until the new server starts.
 - The logical replication cut-over is our script on one machine, one writer and one table. Its write gap shows the order of magnitude when the subscriber is caught up, not what a blue/green switchover on a managed service takes.
-- The Neon dump runs on the client and compresses there, so a faster or slower client changes the dump time.
+- The Neon dump runs on the client and compresses there. Client-side compression may affect dump time; we did not isolate the bottleneck.
 - The dataset is one table with one index. Upgrade times grow with the number of objects in a real schema.
 - New servers in stage 4 run with autovacuum off, so the `pg_stats` count shows what the upgrade carried over rather than what autovacuum analyzed later.
 
