@@ -8,7 +8,7 @@ import { mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { connectionUri, createProject, deleteProject, loadEnv } from "../lib/neon.mjs";
 import { connect, fingerprint, loadAccounts, sizeBytes, statsRows } from "../lib/data.mjs";
-import { PG18, pgTool } from "../lib/docker.mjs";
+import { PG18, pgTool, run as exec } from "../lib/docker.mjs";
 import { openResults } from "../lib/record.mjs";
 
 loadEnv();
@@ -37,18 +37,22 @@ try {
   out.write({ type: "loaded", rows: ROWS, ms: Date.now() - t, size: srcSize, statsRows: srcStats });
 
   // Dump everything first, then delete the source project before creating
-  // the target, so the test needs only one free project slot. Two variants:
+  // the target, so the test needs only one free project slot. In a real
+  // upgrade you keep the source until the new project has taken over. Two variants:
   // pg_dump's defaults, and pg_dump --statistics (new in Postgres 18), which
   // also copies the planner statistics.
   const variants = [{ name: "default", flags: [] }, { name: "statistics", flags: ["--statistics"] }];
   const dumps = [];
-  for (const variant of variants) {
-    for (let run = 1; run <= RUNS; run++) {
+  // Variants alternate, so neither always runs first on a warm server.
+  for (let run = 1; run <= RUNS; run++) {
+    for (const variant of variants) {
       const dir = join(WORK, `dump-${variant.name}-${run}-${Date.now()}`);
       mkdirSync(dir, { recursive: true });
       t = Date.now();
       await pgTool(PG18, "pg_dump", ["-Fd", "-j", String(JOBS), "--no-owner", "--no-privileges", ...variant.flags, "-f", "/dump/db"], { uri: srcUri, mounts: [`${dir}:/dump`] });
-      dumps.push({ variant: variant.name, run, dir, dumpMs: Date.now() - t });
+      const dumpMs = Date.now() - t;
+      const dumpMb = Number((await exec("du", ["-sm", dir])).split("\t")[0]);
+      dumps.push({ variant: variant.name, run, dir, dumpMs, dumpMb });
     }
   }
   await deleteProject(src.project.id);
@@ -62,7 +66,7 @@ try {
   const dstUri = await connectionUri(dst.project.id, dst.branch.id);
   const admin = await connect(dstUri);
   try {
-    for (const { variant, run, dir, dumpMs } of dumps) {
+    for (const { variant, run, dir, dumpMs, dumpMb } of dumps) {
       const db = `up_${variant}_${run}`;
       await admin.query(`CREATE DATABASE ${db}`);
       const dbUri = Object.assign(new URL(dstUri), { pathname: `/${db}` }).toString();
@@ -80,7 +84,7 @@ try {
         const dstPrint = await fingerprint(d);
         const { rows: v } = await d.query("SHOW server_version");
         await d.end();
-        const rec = { type: "upgrade", method: "pg_dump/pg_restore", variant, run, dumpMs, restoreMs, analyzeMs, freezeMs: dumpMs + restoreMs, statsAfterRestore, fingerprintOk: dstPrint === srcPrint, targetVersion: v[0].server_version };
+        const rec = { type: "upgrade", method: "pg_dump/pg_restore", variant, run, dumpMs, dumpMb, restoreMs, analyzeMs, freezeMs: dumpMs + restoreMs, statsAfterRestore, fingerprintOk: dstPrint === srcPrint, targetVersion: v[0].server_version };
         out.write(rec);
         console.log(JSON.stringify(rec));
       } finally {

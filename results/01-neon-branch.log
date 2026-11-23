@@ -1,24 +1,23 @@
-project mute-unit-74270085 in 3653 ms
-loaded 1000000 rows (0.16 GB) in 2587 ms
-{"type":"branch","rows":1000000,"run":1,"apiMs":551,"opsMs":2247,"readyMs":2743,"attempts":1,"edgeOk":true,"fullScanMs":784,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":2,"apiMs":488,"opsMs":2274,"readyMs":2826,"attempts":1,"edgeOk":true,"fullScanMs":766,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":3,"apiMs":520,"opsMs":2936,"readyMs":3449,"attempts":1,"edgeOk":true,"fullScanMs":791,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":4,"apiMs":462,"opsMs":2146,"readyMs":2734,"attempts":1,"edgeOk":true,"fullScanMs":736,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":5,"apiMs":443,"opsMs":2321,"readyMs":2828,"attempts":1,"edgeOk":true,"fullScanMs":761,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":6,"apiMs":435,"opsMs":2135,"readyMs":2649,"attempts":1,"edgeOk":true,"fullScanMs":800,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":7,"apiMs":450,"opsMs":2152,"readyMs":2637,"attempts":1,"edgeOk":true,"fullScanMs":777,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":8,"apiMs":464,"opsMs":2164,"readyMs":2672,"attempts":1,"edgeOk":true,"fullScanMs":791,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":9,"apiMs":475,"opsMs":2217,"readyMs":2719,"attempts":1,"edgeOk":true,"fullScanMs":1680,"fingerprintOk":true}
-{"type":"branch","rows":1000000,"run":10,"apiMs":491,"opsMs":2163,"readyMs":2664,"attempts":1,"edgeOk":true,"fullScanMs":781,"fingerprintOk":true}
-loaded 10000000 rows (1.58 GB) in 33371 ms
-{"type":"branch","rows":10000000,"run":1,"apiMs":526,"opsMs":2923,"readyMs":3431,"attempts":1,"edgeOk":true,"fullScanMs":15912,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":2,"apiMs":521,"opsMs":2240,"readyMs":2758,"attempts":1,"edgeOk":true,"fullScanMs":5912,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":3,"apiMs":484,"opsMs":2935,"readyMs":3462,"attempts":1,"edgeOk":true,"fullScanMs":5426,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":4,"apiMs":484,"opsMs":2202,"readyMs":2721,"attempts":1,"edgeOk":true,"fullScanMs":5224,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":5,"apiMs":498,"opsMs":2208,"readyMs":2756,"attempts":1,"edgeOk":true,"fullScanMs":6219,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":6,"apiMs":524,"opsMs":2176,"readyMs":2697,"attempts":1,"edgeOk":true,"fullScanMs":5543,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":7,"apiMs":456,"opsMs":2158,"readyMs":2665,"attempts":1,"edgeOk":true,"fullScanMs":5219,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":8,"apiMs":496,"opsMs":2411,"readyMs":3005,"attempts":1,"edgeOk":true,"fullScanMs":8828,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":9,"apiMs":506,"opsMs":2980,"readyMs":3508,"attempts":1,"edgeOk":true,"fullScanMs":5284,"fingerprintOk":true}
-{"type":"branch","rows":10000000,"run":10,"apiMs":486,"opsMs":1711,"readyMs":2232,"attempts":1,"edgeOk":true,"fullScanMs":7534,"fingerprintOk":true}
-NEONDONE
+project wild-hill-44239642 in 3450 ms
+loaded 1000000 rows (0.16 GB) in 5499 ms
+{"type":"branch","rows":1000000,"run":1,"apiMs":471,"opsMs":2187,"readyMs":2711,"attempts":1,"edgeOk":true,"fullScanMs":2313,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":2,"apiMs":438,"opsMs":2152,"readyMs":2631,"attempts":1,"edgeOk":true,"fullScanMs":1454,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":3,"apiMs":498,"opsMs":2400,"readyMs":2894,"attempts":1,"edgeOk":true,"fullScanMs":1966,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":4,"apiMs":472,"opsMs":2167,"readyMs":2681,"attempts":1,"edgeOk":true,"fullScanMs":1239,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":5,"apiMs":430,"opsMs":2134,"readyMs":2638,"attempts":1,"edgeOk":true,"fullScanMs":1268,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":6,"apiMs":435,"opsMs":2353,"readyMs":2843,"attempts":1,"edgeOk":true,"fullScanMs":1454,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":7,"apiMs":440,"opsMs":2896,"readyMs":3379,"attempts":1,"edgeOk":true,"fullScanMs":2256,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":8,"apiMs":470,"opsMs":2884,"readyMs":3388,"attempts":1,"edgeOk":true,"fullScanMs":1257,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":9,"apiMs":457,"opsMs":2151,"readyMs":2650,"attempts":1,"edgeOk":true,"fullScanMs":1185,"fingerprintOk":true}
+{"type":"branch","rows":1000000,"run":10,"apiMs":450,"opsMs":2172,"readyMs":2691,"attempts":1,"edgeOk":true,"fullScanMs":2137,"fingerprintOk":true}
+loaded 10000000 rows (1.58 GB) in 63136 ms
+{"type":"branch","rows":10000000,"run":1,"apiMs":699,"opsMs":2872,"readyMs":3396,"attempts":1,"edgeOk":true,"fullScanMs":13129,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":2,"apiMs":476,"opsMs":2206,"readyMs":2756,"attempts":1,"edgeOk":true,"fullScanMs":12432,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":3,"apiMs":444,"opsMs":2132,"readyMs":2679,"attempts":1,"edgeOk":true,"fullScanMs":11720,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":4,"apiMs":457,"opsMs":2181,"readyMs":2692,"attempts":1,"edgeOk":true,"fullScanMs":12192,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":5,"apiMs":501,"opsMs":2226,"readyMs":2743,"attempts":1,"edgeOk":true,"fullScanMs":11853,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":6,"apiMs":430,"opsMs":2107,"readyMs":2617,"attempts":1,"edgeOk":true,"fullScanMs":12034,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":7,"apiMs":511,"opsMs":2187,"readyMs":2740,"attempts":1,"edgeOk":true,"fullScanMs":15415,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":8,"apiMs":466,"opsMs":2937,"readyMs":3461,"attempts":1,"edgeOk":true,"fullScanMs":15055,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":9,"apiMs":436,"opsMs":2142,"readyMs":2667,"attempts":1,"edgeOk":true,"fullScanMs":12085,"fingerprintOk":true}
+{"type":"branch","rows":10000000,"run":10,"apiMs":444,"opsMs":2121,"readyMs":2641,"attempts":1,"edgeOk":true,"fullScanMs":15464,"fingerprintOk":true}

@@ -1,8 +1,8 @@
-{"t":"2026-11-23T16:16:55.205Z","stamp":"57f8ce2b381b","type":"start","rows":1000000,"region":"eu-central-1"}
-{"t":"2026-11-23T16:16:55.399Z","stamp":"57f8ce2b381b","type":"org","plan":"free"}
-{"t":"2026-11-23T16:17:01.845Z","stamp":"57f8ce2b381b","type":"pooler","host":"aws-0-eu-central-1.pooler.supabase.com","user":"postgres.gdsuiatjhcqklounjpbm","mode":"transaction"}
-{"t":"2026-11-23T16:17:02.048Z","stamp":"57f8ce2b381b","type":"project","healthyMs":6313,"queryableMs":6648,"lastConnectError":null,"version":"17.12.0.000","engine":"17"}
-{"t":"2026-11-23T16:17:11.340Z","stamp":"57f8ce2b381b","type":"loaded","rows":1000000,"ms":9233,"size":{"database":167917235,"accounts":156844032},"edgeOk":true}
-{"t":"2026-11-23T16:17:11.481Z","stamp":"57f8ce2b381b","type":"upgrade-eligibility","status":200,"body":{"eligible":false,"current_app_version":"supabase-postgres-17.12.0.000","current_app_version_release_channel":"ga","latest_app_version":"supabase-postgres-17.12.0.000","target_upgrade_versions":[],"duration_estimate_hours":0,"legacy_auth_custom_roles":[],"objects_to_be_dropped":[],"unsupported_extensions":[],"user_defined_objects_in_internal_schemas":[],"validation_errors":[],"warnings":[]}}
-{"t":"2026-11-23T16:17:12.468Z","stamp":"57f8ce2b381b","type":"branch-create","status":402,"body":{"message":"Branching is supported only on the Pro plan or above","error":{"code":"entitlement_required","feature":"branching_limit","upgrade_url":"https://supabase.com/dashboard/org/igtsxmkmoatcqmwccngi/billing"}}}
-{"t":"2026-11-23T16:17:14.311Z","stamp":"57f8ce2b381b","type":"deleted","ref":"gdsuiatjhcqklounjpbm","status":200}
+{"t":"2026-11-23T17:15:36.257Z","stamp":"579fd6e50226","type":"start","rows":1000000,"region":"eu-central-1"}
+{"t":"2026-11-23T17:15:36.464Z","stamp":"579fd6e50226","type":"org","plan":"free"}
+{"t":"2026-11-23T17:15:43.437Z","stamp":"579fd6e50226","type":"pooler","host":"aws-0-eu-central-1.pooler.supabase.com","user":"postgres.pjrjeqsyqfgkbwpyaqvn","mode":"transaction"}
+{"t":"2026-11-23T17:15:43.614Z","stamp":"579fd6e50226","type":"project","healthyMs":6848,"queryableMs":7150,"lastConnectError":null,"version":"17.12.0.000","engine":"17"}
+{"t":"2026-11-23T17:15:58.320Z","stamp":"579fd6e50226","type":"loaded","rows":1000000,"ms":14630,"size":{"database":167925427,"accounts":156844032},"edgeOk":true}
+{"t":"2026-11-23T17:15:58.449Z","stamp":"579fd6e50226","type":"upgrade-eligibility","status":200,"body":{"eligible":false,"current_app_version":"supabase-postgres-17.12.0.000","current_app_version_release_channel":"ga","latest_app_version":"supabase-postgres-17.12.0.000","target_upgrade_versions":[],"duration_estimate_hours":0,"legacy_auth_custom_roles":[],"objects_to_be_dropped":[],"unsupported_extensions":[],"user_defined_objects_in_internal_schemas":[],"validation_errors":[],"warnings":[]}}
+{"t":"2026-11-23T17:15:59.375Z","stamp":"579fd6e50226","type":"branch-create","status":402,"body":{"message":"Branching is supported only on the Pro plan or above","error":{"code":"entitlement_required","feature":"branching_limit","upgrade_url":"https://supabase.com/dashboard/org/igtsxmkmoatcqmwccngi/billing"}}}
+{"t":"2026-11-23T17:16:01.015Z","stamp":"579fd6e50226","type":"deleted","ref":"pjrjeqsyqfgkbwpyaqvn","status":200}

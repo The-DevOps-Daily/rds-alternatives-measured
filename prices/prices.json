@@ -403,6 +403,42 @@
    "unit": "fixed disk sizes",
    "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-storage",
    "quote": "Disk size Premium SSD IOPS ... 32 GiB Provisioned 120 ... 64 GiB Provisioned 240 ... 256 GiB Provisioned 1,100 ... 1 TiB 5,000"
+  },
+  "planetscale.PS-160-ARM.single.monthly": {
+   "value": 96,
+   "unit": "USD/month",
+   "url": "https://planetscale.com/pricing.md",
+   "quote": "Postgres EBS non-HA: PS-160 arm64 2 vCPU 16 GiB $96"
+  },
+  "planetscale.storage.includedPerInstanceGb": {
+   "value": 10,
+   "unit": "GB per included instance",
+   "url": "https://planetscale.com/docs/postgres/pricing",
+   "quote": "included-instance volume cost = max(average storage GB - 10 GB, 0) x volume rate x included instances"
+  },
+  "aiven.extraDisk.stepGb": {
+   "value": 10,
+   "unit": "GiB",
+   "url": "https://api.aiven.io/v1/service_types",
+   "quote": "business-8 disk_space_step_mb 10240 (175 GiB base, added in 10 GiB steps)"
+  },
+  "xata.replicas.ha": {
+   "value": "replicas provide HA and automated failover; replica price not published",
+   "unit": "rule",
+   "url": "https://xata.io/docs/platform/branch",
+   "quote": "Replicas: Configure the number of read replicas for the branch. Replicas provide high availability, automated failover, and read scaling."
+  },
+  "digitalocean.standard.newClusterLimit": {
+   "value": "no Standard plans over 4 GiB RAM or with standbys for new clusters",
+   "unit": "rule",
+   "url": "https://docs.digitalocean.com/products/databases/postgresql/details/pricing/",
+   "quote": "Beginning 15 October 2026 for new accounts and 30 November 2026 for all accounts, new Standard Edition clusters cannot use plans with more than 4 GiB of RAM or add standby or read-only nodes."
+  },
+  "neon.history.gbMonth": {
+   "value": 0.2,
+   "unit": "USD/GB-month",
+   "url": "https://neon.com/pricing",
+   "quote": "Instant restore ... $0.20/GB-month (Launch and Scale); history window"
   }
  },
  "providers": {
@@ -416,7 +452,8 @@
   "crunchy": "Crunchy Bridge (Crunchy Data, acquired by Snowflake) and Snowflake Postgres",
   "aiven": "Aiven for PostgreSQL (aws-us-east-1)",
   "planetscale": "PlanetScale Postgres (AWS us-east-1)",
-  "xata": "Xata (Xata Cloud)"
+  "xata": "Xata (Xata Cloud)",
+  "aurora-standard": "Amazon Aurora PostgreSQL, Aurora Standard (us-east-1)"
  },
  "freeTiers": {
   "rds": {

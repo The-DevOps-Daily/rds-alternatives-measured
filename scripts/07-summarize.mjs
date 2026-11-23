@@ -44,14 +44,15 @@ if (has("02-neon-major-upgrade")) {
     rows: loaded.rows,
     gb: +(loaded.size.database / 1e9).toFixed(2),
     dumpMs: stats(rs.map((r) => r.dumpMs)),
+    dumpMb: med(rs.map((r) => r.dumpMb)),
     restoreMs: stats(rs.map((r) => r.restoreMs)),
     freezeMs: stats(rs.map((r) => r.freezeMs)),
     analyzeMs: stats(rs.map((r) => r.analyzeMs)),
     statsAfterRestore: [...new Set(rs.map((r) => r.statsAfterRestore))],
     allDataChecksOk: rs.every((r) => r.fingerprintOk),
   }));
-  md += "\n## Neon, Postgres 17 to 18 by pg_dump and pg_restore into a new project\n\n| pg_dump flags | Runs | Dump | Restore | Write freeze (median) | pg_stats rows after restore | ANALYZE |\n|---|---:|---:|---:|---:|---|---:|\n";
-  for (const s of summary.neonUpgrade) md += `| ${s.variant === "default" ? "defaults" : "--statistics"} | ${s.freezeMs.n} | ${(s.dumpMs.median / 1000).toFixed(1)} s | ${(s.restoreMs.median / 1000).toFixed(1)} s | ${(s.freezeMs.median / 1000).toFixed(1)} s | ${s.statsAfterRestore.join(", ")} | ${(s.analyzeMs.median / 1000).toFixed(1)} s |\n`;
+  md += "\n## Neon, Postgres 17 to 18 by pg_dump and pg_restore into a new project\n\n| pg_dump flags | Runs | Dump | Dump size | Restore | Dump + restore (median) | pg_stats rows after restore | ANALYZE |\n|---|---:|---:|---:|---:|---:|---|---:|\n";
+  for (const s of summary.neonUpgrade) md += `| ${s.variant === "default" ? "defaults" : "--statistics"} | ${s.freezeMs.n} | ${(s.dumpMs.median / 1000).toFixed(1)} s | ${s.dumpMb} MB | ${(s.restoreMs.median / 1000).toFixed(1)} s | ${(s.freezeMs.median / 1000).toFixed(1)} s | ${s.statsAfterRestore.join(", ")} | ${(s.analyzeMs.median / 1000).toFixed(1)} s |\n`;
 }
 
 if (has("03-supabase-free")) {
@@ -80,21 +81,23 @@ if (has("04-local-upgrade")) {
         o.upgradeMs = stats(rs.map((r) => r.upgradeMs));
         o.probeOutageMs = stats(rs.map((r) => Math.max(0, ...r.probe.map((p) => p.ms ?? 0))));
       }
-      if (rs[0].writeFreezeMs !== undefined) o.writeFreezeMs = stats(rs.map((r) => r.writeFreezeMs));
+      if (rs[0].writeFreezeMs !== undefined) {
+        o.writeFreezeMs = stats(rs.map((r) => r.writeFreezeMs));
+        o.dumpMb = med(rs.map((r) => r.dumpMb));
+      }
       if (rs[0].initialSyncMs !== undefined) {
         o.initialSyncMs = stats(rs.map((r) => r.initialSyncMs));
         o.writeGapMs = stats(rs.map((r) => r.writeGapMs));
         o.eventsLost = rs.map((r) => r.eventsLost);
+        o.failedWrites = rs.map((r) => r.failedWrites);
       }
       return o;
     }),
   };
-  md += `\n## Local, Postgres 17 to 18 (${start.cpus} CPUs)\n\n| Rows | DB size | Method | Runs | Clients locked out (median) | Probe outage (median) | Writes stopped (median) | pg_stats rows after | ANALYZE |\n|---:|---:|---|---:|---:|---:|---:|---|---:|\n`;
+  md += `\n## Local, Postgres 17 to 18 (${start.cpus} CPUs)\n\nMedians. pg_upgrade rows: "stop to answer" is from stopping the old server to the first answered connection on the new one; "pg_upgrade alone" is the command. Dump-restore rows: dump plus restore, the time writes would have to stop (no writer ran). Logical: initial copy while writes continue, then the gap between the last write on the old server and the first on the new.\n\n| Rows | DB size | Method | Runs | Stop to answer | pg_upgrade alone | Dump + restore | Logical copy / gap | pg_stats rows after | ANALYZE |\n|---:|---:|---|---:|---:|---:|---:|---|---|---:|\n`;
+  const sec = (x) => (x === undefined ? "" : `${(x / 1000).toFixed(1)} s`);
   for (const r of summary.localUpgrade.results) {
-    const down = r.downMs ? `${(r.downMs.median / 1000).toFixed(1)} s` : r.writeGapMs ? `0 s` : "0 s (old server stays up)";
-    const probe = r.probeOutageMs ? `${(r.probeOutageMs.median / 1000).toFixed(1)} s` : "";
-    const writes = r.downMs ? down : r.writeFreezeMs ? `${(r.writeFreezeMs.median / 1000).toFixed(1)} s` : `${r.writeGapMs.median} ms (after ${(r.initialSyncMs.median / 1000).toFixed(1)} s initial sync)`;
-    md += `| ${r.rows.toLocaleString("en-US")} | ${r.gb} GB | ${r.method} | ${r.runs} | ${down} | ${probe} | ${writes} | ${r.statsRows.join(", ")} | ${(r.analyzeMs.median / 1000).toFixed(1)} s |\n`;
+    md += `| ${r.rows.toLocaleString("en-US")} | ${r.gb} GB | ${r.method} | ${r.runs} | ${sec(r.downMs?.median)} | ${sec(r.upgradeMs?.median)} | ${sec(r.writeFreezeMs?.median)} | ${r.initialSyncMs ? `${sec(r.initialSyncMs.median)} / ${r.writeGapMs.median} ms` : ""} | ${r.statsRows.join(", ")} | ${sec(r.analyzeMs.median)} |\n`;
   }
 }
 

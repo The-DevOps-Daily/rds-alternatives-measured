@@ -2,6 +2,7 @@
 // one machine with the same data, Postgres 17 to 18:
 //   copy, link, swap   pg_upgrade modes (what "in-place upgrade" runs underneath)
 //   dump-restore       pg_dump and pg_restore into a new server
+//   dump-restore-stats the same with pg_dump --statistics (new in Postgres 18)
 //   logical            logical replication into a new server, then a cut-over
 //                      (what blue/green deployments do)
 // For each it records how long clients could not connect (or write), whether
@@ -17,7 +18,7 @@ import { openResults } from "../lib/record.mjs";
 
 const SIZES = (process.env.SIZES || "1000000,10000000,30000000").split(",").map(Number);
 const RUNS = Number(process.env.RUNS || 3);
-const METHODS = (process.env.METHODS || "copy,link,swap,dump-restore,logical").split(",");
+const METHODS = (process.env.METHODS || "copy,link,swap,dump-restore,dump-restore-stats,logical").split(",");
 const LOGICAL_SIZES = (process.env.LOGICAL_SIZES || "10000000").split(",").map(Number);
 const JOBS = Number(process.env.JOBS || 4);
 const WORK = process.env.WORK || join(process.cwd(), "work");
@@ -99,7 +100,8 @@ try {
         await c0.end();
         let rec;
         if (["copy", "link", "swap"].includes(method)) rec = await pgUpgrade(method, dir, rows);
-        else if (method === "dump-restore") rec = await dumpRestore(dir);
+        else if (method === "dump-restore") rec = await dumpRestore(dir, []);
+        else if (method === "dump-restore-stats") rec = await dumpRestore(dir, ["--statistics"]);
         else rec = await logical(dir);
         const c1 = await connect(uri(rec.port));
         rec.fingerprintOk = (await fingerprint(c1)) === before;
@@ -141,21 +143,23 @@ async function pgUpgrade(mode, dir, rows) {
   return { port: OLD_PORT, stopMs: t1 - t0, upgradeMs: t2 - t1, startMs: t3 - t2, downMs: t3 - t0, probe: p.outages, diskMb: Number(du.trim()), rollback: mode === "copy" ? "old cluster untouched" : "old cluster not usable once the new one has started" };
 }
 
-// A new server; writes must stop for the whole dump and restore.
-async function dumpRestore(dir) {
+// A new server; writes must stop for the whole dump and restore. The
+// script does not run a writer here: writeFreezeMs is dump plus restore.
+async function dumpRestore(dir, flags) {
   await initdb(BIN18, `${dir}/new`);
   await start(BIN18, `${dir}/new`, NEW_PORT, NEW_OPTS);
   const t0 = Date.now();
-  await sh(`${BIN18}/pg_dump -h 127.0.0.1 -p ${OLD_PORT} -U postgres -Fd -j ${JOBS} -f ${dir}/dump postgres`);
+  await sh(`${BIN18}/pg_dump -h 127.0.0.1 -p ${OLD_PORT} -U postgres -Fd -j ${JOBS} ${flags.join(" ")} -f ${dir}/dump postgres`);
   const t1 = Date.now();
   await sh(`${BIN18}/pg_restore -h 127.0.0.1 -p ${NEW_PORT} -U postgres -j ${JOBS} -d postgres ${dir}/dump`);
   const t2 = Date.now();
-  return { port: NEW_PORT, dumpMs: t1 - t0, restoreMs: t2 - t1, writeFreezeMs: t2 - t0 };
+  const dumpMb = Number((await sh(`du -sm ${dir}/dump | cut -f1`)).trim());
+  return { port: NEW_PORT, dumpMs: t1 - t0, restoreMs: t2 - t1, writeFreezeMs: t2 - t0, dumpMb };
 }
 
 // Logical replication into a new server while a writer keeps inserting,
-// then a cut-over: stop the writer, wait for the subscriber to catch up,
-// move the sequence, point the writer at the new server.
+// then a cut-over (see below). One writer, one table: the gap shows the
+// order of magnitude for a caught-up subscriber, not a general cut-over.
 async function logical(dir) {
   await initdb(BIN18, `${dir}/new`);
   await start(BIN18, `${dir}/new`, NEW_PORT, NEW_OPTS);
@@ -165,19 +169,26 @@ async function logical(dir) {
   await oldc.query("CREATE PUBLICATION up FOR ALL TABLES");
 
   // The writer: one insert every 50 ms to whichever server is current.
+  // Failed inserts are counted, not hidden.
   let target = oldc;
   let busy = null;
   let writes = 0;
+  let failed = 0;
   let writerOn = true;
+  let lastOnOld = null;
   let firstOnNew = null;
   const writer = (async () => {
     while (writerOn) {
       const t = target;
       if (t) {
-        busy = t.query("INSERT INTO events (note) VALUES ('w')").then(() => {
-          writes++;
-          if (t === newc && !firstOnNew) firstOnNew = Date.now();
-        }, () => {});
+        busy = t.query("INSERT INTO events (note) VALUES ('w')").then(
+          () => {
+            writes++;
+            if (t === oldc) lastOnOld = Date.now();
+            if (t === newc && !firstOnNew) firstOnNew = Date.now();
+          },
+          () => failed++,
+        );
         await busy;
         busy = null;
       }
@@ -190,27 +201,31 @@ async function logical(dir) {
   for (;;) {
     const { rows } = await newc.query("SELECT count(*) FILTER (WHERE srsubstate <> 'r')::int AS pending FROM pg_subscription_rel");
     if (rows[0].pending === 0) break;
+    if (Date.now() - t0 > 3_600_000) throw new Error("initial sync did not finish in an hour");
     await sleep(250);
   }
   const syncMs = Date.now() - t0;
   await sleep(3000);
 
-  // Cut-over. Caught up means the new server has the last row written on
-  // the old one: replication status views report positions only every few
-  // seconds, the data itself does not lag behind like that.
-  const c0 = Date.now();
+  // Cut-over: stop the writer, write a marker row on the old server, wait
+  // until the marker has been applied on the new one (everything committed
+  // before it has been too), move the sequence past it, switch the writer.
+  // The gap is from the last write on the old server to the first on the new.
   target = null;
   if (busy) await busy;
-  const { rows: l } = await oldc.query("SELECT last_value AS seq FROM events_id_seq");
+  const { rows: m } = await oldc.query("INSERT INTO events (note) VALUES ('cutover') RETURNING id");
+  const marker = m[0].id;
+  const waitFrom = Date.now();
   for (;;) {
-    const { rows } = await newc.query("SELECT coalesce(max(id), 0) >= $1 AS caught FROM events", [l[0].seq]);
-    if (rows[0].caught) break;
+    const { rows } = await newc.query("SELECT count(*)::int AS n FROM events WHERE id = $1", [marker]);
+    if (rows[0].n === 1) break;
+    if (Date.now() - waitFrom > 60_000) throw new Error("marker row not replicated within 60 s");
     await sleep(10);
   }
-  await newc.query("SELECT setval('events_id_seq', $1)", [l[0].seq]);
+  await newc.query("SELECT setval('events_id_seq', $1)", [marker]);
   target = newc;
   while (!firstOnNew) await sleep(5);
-  const gapMs = firstOnNew - c0;
+  const gapMs = firstOnNew - lastOnOld;
   writerOn = false;
   await writer;
   const { rows: cnt } = await newc.query("SELECT count(*)::int AS n FROM events");
@@ -220,5 +235,5 @@ async function logical(dir) {
   await oldc.query("SELECT pg_drop_replication_slot('up')").catch(() => {});
   await oldc.end();
   await newc.end();
-  return { port: NEW_PORT, initialSyncMs: syncMs, writeGapMs: gapMs, writes, eventsOnNew: cnt[0].n, eventsLost: writes - cnt[0].n };
+  return { port: NEW_PORT, initialSyncMs: syncMs, writeGapMs: gapMs, writes, failedWrites: failed, eventsOnNew: cnt[0].n, eventsLost: writes + 1 - cnt[0].n };
 }

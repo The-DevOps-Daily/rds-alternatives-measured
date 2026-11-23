@@ -1,12 +1,12 @@
-{"t":"2026-11-23T16:48:06.132Z","stamp":"dbf636574725","type":"start","rows":10000000,"runs":3,"jobs":4,"region":"aws-eu-central-1","cu":2,"image":"postgres:18.7-bookworm"}
-{"t":"2026-11-23T16:48:10.385Z","stamp":"dbf636574725","type":"project","role":"source","pgVersion":17,"ms":4253}
-{"t":"2026-11-23T16:48:33.617Z","stamp":"dbf636574725","type":"loaded","rows":10000000,"ms":22713,"size":{"database":1575550976,"accounts":1567940608},"statsRows":4}
-{"t":"2026-11-23T16:50:19.687Z","stamp":"dbf636574725","type":"deleted","projectId":"lingering-field-27562477"}
-{"t":"2026-11-23T16:50:23.094Z","stamp":"dbf636574725","type":"project","role":"target","pgVersion":18,"ms":3407}
-{"t":"2026-11-23T16:50:39.568Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":1,"dumpMs":16886,"restoreMs":14854,"analyzeMs":200,"freezeMs":31740,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"t":"2026-11-23T16:51:00.828Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":2,"dumpMs":16780,"restoreMs":20384,"analyzeMs":196,"freezeMs":37164,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"t":"2026-11-23T16:51:18.637Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":3,"dumpMs":17128,"restoreMs":16929,"analyzeMs":208,"freezeMs":34057,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"t":"2026-11-23T16:51:31.953Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":1,"dumpMs":16660,"restoreMs":12443,"analyzeMs":201,"freezeMs":29103,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"t":"2026-11-23T16:51:44.613Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":2,"dumpMs":16677,"restoreMs":11763,"analyzeMs":229,"freezeMs":28440,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"t":"2026-11-23T16:51:57.352Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":3,"dumpMs":21039,"restoreMs":11879,"analyzeMs":199,"freezeMs":32918,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"t":"2026-11-23T16:51:58.152Z","stamp":"dbf636574725","type":"deleted","projectId":"rapid-poetry-40255802"}
+{"t":"2026-11-23T17:08:17.383Z","stamp":"ad1fe4a676b7","type":"start","rows":10000000,"runs":3,"jobs":4,"region":"aws-eu-central-1","cu":2,"image":"postgres:18.7-bookworm"}
+{"t":"2026-11-23T17:08:23.164Z","stamp":"ad1fe4a676b7","type":"project","role":"source","pgVersion":17,"ms":5780}
+{"t":"2026-11-23T17:09:16.085Z","stamp":"ad1fe4a676b7","type":"loaded","rows":10000000,"ms":52402,"size":{"database":1575567360,"accounts":1567948800},"statsRows":4}
+{"t":"2026-11-23T17:13:53.998Z","stamp":"ad1fe4a676b7","type":"deleted","projectId":"orange-bonus-59053899"}
+{"t":"2026-11-23T17:13:57.058Z","stamp":"ad1fe4a676b7","type":"project","role":"target","pgVersion":18,"ms":3059}
+{"t":"2026-11-23T17:14:13.896Z","stamp":"ad1fe4a676b7","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":1,"dumpMs":42719,"dumpMb":275,"restoreMs":11668,"analyzeMs":189,"freezeMs":54387,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T17:14:29.625Z","stamp":"ad1fe4a676b7","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":1,"dumpMs":47819,"dumpMb":275,"restoreMs":11220,"analyzeMs":203,"freezeMs":59039,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T17:14:45.720Z","stamp":"ad1fe4a676b7","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":2,"dumpMs":46830,"dumpMb":275,"restoreMs":11532,"analyzeMs":201,"freezeMs":58362,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T17:15:02.132Z","stamp":"ad1fe4a676b7","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":2,"dumpMs":45709,"dumpMb":275,"restoreMs":11845,"analyzeMs":198,"freezeMs":57554,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T17:15:18.886Z","stamp":"ad1fe4a676b7","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":3,"dumpMs":51056,"dumpMb":275,"restoreMs":12248,"analyzeMs":191,"freezeMs":63304,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T17:15:35.055Z","stamp":"ad1fe4a676b7","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":3,"dumpMs":43098,"dumpMb":275,"restoreMs":11668,"analyzeMs":196,"freezeMs":54766,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T17:15:36.136Z","stamp":"ad1fe4a676b7","type":"deleted","projectId":"plain-cell-66888072"}

@@ -1,7 +1,6 @@
-{"type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":1,"dumpMs":16886,"restoreMs":14854,"analyzeMs":200,"freezeMs":31740,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":2,"dumpMs":16780,"restoreMs":20384,"analyzeMs":196,"freezeMs":37164,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":3,"dumpMs":17128,"restoreMs":16929,"analyzeMs":208,"freezeMs":34057,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":1,"dumpMs":16660,"restoreMs":12443,"analyzeMs":201,"freezeMs":29103,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":2,"dumpMs":16677,"restoreMs":11763,"analyzeMs":229,"freezeMs":28440,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-{"type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":3,"dumpMs":21039,"restoreMs":11879,"analyzeMs":199,"freezeMs":32918,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
-NEONUPDONE
+{"type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":1,"dumpMs":42719,"dumpMb":275,"restoreMs":11668,"analyzeMs":189,"freezeMs":54387,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":1,"dumpMs":47819,"dumpMb":275,"restoreMs":11220,"analyzeMs":203,"freezeMs":59039,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":2,"dumpMs":46830,"dumpMb":275,"restoreMs":11532,"analyzeMs":201,"freezeMs":58362,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":2,"dumpMs":45709,"dumpMb":275,"restoreMs":11845,"analyzeMs":198,"freezeMs":57554,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":3,"dumpMs":51056,"dumpMb":275,"restoreMs":12248,"analyzeMs":191,"freezeMs":63304,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":3,"dumpMs":43098,"dumpMb":275,"restoreMs":11668,"analyzeMs":196,"freezeMs":54766,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}

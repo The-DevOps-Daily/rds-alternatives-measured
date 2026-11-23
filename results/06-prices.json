@@ -5,15 +5,6 @@
   "S": [
    {
     "size": "S",
-    "provider": "planetscale",
-    "name": "PlanetScale Postgres (AWS us-east-1)",
-    "plan": "PS-40, single node (1/2 vCPU, 4 GB)",
-    "ha": false,
-    "monthlyUsd": 34.25,
-    "note": "8 GB of RAM per vCPU, so no 2 vCPU / 4 GB plan."
-   },
-   {
-    "size": "S",
     "provider": "xata",
     "name": "Xata (Xata Cloud)",
     "plan": "medium (up to 2 vCPU, 4 GB)",
@@ -41,21 +32,21 @@
    },
    {
     "size": "S",
+    "provider": "aurora-standard",
+    "name": "Amazon Aurora PostgreSQL, Aurora Standard (us-east-1)",
+    "plan": "db.t4g.medium, one instance, Aurora Standard, before I/O",
+    "ha": false,
+    "monthlyUsd": 58.29,
+    "note": "Plus $0.20 per million I/O requests, not included."
+   },
+   {
+    "size": "S",
     "provider": "digitalocean",
     "name": "DigitalOcean Managed PostgreSQL",
     "plan": "Basic 2 vCPU / 4 GB (shared CPU), 60 GiB minimum disk",
     "ha": false,
     "monthlyUsd": 60.9,
     "note": "60 GiB is the smallest disk on this plan."
-   },
-   {
-    "size": "S",
-    "provider": "crunchy",
-    "name": "Crunchy Bridge (Crunchy Data, acquired by Snowflake) and Snowflake Postgres",
-    "plan": "Crunchy Bridge Standard-4 (1 core, 4 GB)",
-    "ha": false,
-    "monthlyUsd": 75,
-    "note": "No 2 core / 4 GB plan."
    },
    {
     "size": "S",
@@ -86,34 +77,42 @@
    },
    {
     "size": "S",
-    "provider": "neon",
-    "name": "Neon (Lakebase Postgres, part of Databricks)",
-    "plan": "Launch, 1 CU always on (1 vCPU / 4 GB)",
-    "ha": false,
-    "monthlyUsd": 94.88,
-    "note": "A CU is 1 vCPU and 4 GB, so 2 vCPU / 4 GB does not exist. Scale to zero lowers this; always-on is the worst case."
-   },
-   {
-    "size": "S",
     "provider": "aiven",
     "name": "Aiven for PostgreSQL (aws-us-east-1)",
     "plan": "startup-4 (2 CPU, 4 GB, 80 GB included)",
     "ha": false,
     "monthlyUsd": 99.28,
     "note": ""
+   },
+   {
+    "size": "S",
+    "provider": "planetscale",
+    "name": "PlanetScale Postgres (AWS us-east-1)",
+    "plan": "PS-160, single node (2 vCPU, 16 GB)",
+    "ha": false,
+    "monthlyUsd": 101,
+    "note": "8 GB of RAM per vCPU, so 2 vCPU means 16 GB. PS-40 (1/2 vCPU, 4 GB) would be $33."
+   },
+   {
+    "size": "S",
+    "provider": "crunchy",
+    "name": "Crunchy Bridge (Crunchy Data, acquired by Snowflake) and Snowflake Postgres",
+    "plan": "Crunchy Bridge Standard-8 (2 cores, 8 GB)",
+    "ha": false,
+    "monthlyUsd": 145,
+    "note": "No 2 core / 4 GB plan."
+   },
+   {
+    "size": "S",
+    "provider": "neon",
+    "name": "Neon (Lakebase Postgres, part of Databricks)",
+    "plan": "Launch, 2 CU always on (2 vCPU / 8 GB)",
+    "ha": false,
+    "monthlyUsd": 172.26,
+    "note": "A CU is 1 vCPU and 4 GB, so 2 vCPU means 8 GB. Always on is the worst case; scale to zero lowers it. Launch has no uptime SLA. Restore history ($0.20 per GB-month of changes) not included."
    }
   ],
   "M": [
-   {
-    "size": "M",
-    "provider": "xata",
-    "name": "Xata (Xata Cloud)",
-    "plan": "large (2 vCPU, 8 GB), one node",
-    "ha": false,
-    "monthlyUsd": 126.08,
-    "note": "No HA option in the pricing.",
-    "vsRds": 0.43
-   },
    {
     "size": "M",
     "provider": "supabase",
@@ -126,12 +125,22 @@
    },
    {
     "size": "M",
+    "provider": "xata",
+    "name": "Xata (Xata Cloud)",
+    "plan": "large (2 vCPU, 8 GB) + one replica",
+    "ha": true,
+    "monthlyUsd": 196.16,
+    "note": "Replicas give automatic failover, but their price is not published: we assumed one costs the same as the primary instance, storage counted once.",
+    "vsRds": 0.67
+   },
+   {
+    "size": "M",
     "provider": "neon",
     "name": "Neon (Lakebase Postgres, part of Databricks)",
     "plan": "Launch, 2 CU always on, one compute",
     "ha": false,
     "monthlyUsd": 224.76,
-    "note": "No standby compute: storage is replicated, and a failed compute is restarted.",
+    "note": "No standby compute: storage is replicated, and a failed compute is restarted. Launch has no uptime SLA; on Scale this is $394. Restore history not included.",
     "vsRds": 0.77
    },
    {
@@ -161,7 +170,7 @@
     "plan": "Crunchy Bridge Standard-8 (2 cores, 8 GB) with HA",
     "ha": true,
     "monthlyUsd": 300,
-    "note": "HA doubles the cluster price; whether it doubles storage is not stated.",
+    "note": "HA doubles the cluster price; whether it doubles storage is not stated. Counted once; $320 if doubled.",
     "vsRds": 1.03
    },
    {
@@ -171,7 +180,7 @@
     "plan": "Advanced, General Purpose 2 vCPU / 8 GB + one standby",
     "ha": true,
     "monthlyUsd": 306,
-    "note": "The Standard 2/8 plan tops out at 150 GiB.",
+    "note": "New Standard clusters cannot have more than 4 GiB of RAM or a standby (new accounts since 15 Oct 2026, all accounts from 30 Nov 2026).",
     "vsRds": 1.05
    },
    {
@@ -190,19 +199,29 @@
     "name": "PlanetScale Postgres (AWS us-east-1)",
     "plan": "PS-160 HA (2 vCPU, 16 GB; primary + 2 replicas)",
     "ha": true,
-    "monthlyUsd": 361,
-    "note": "Storage is billed on all three nodes.",
-    "vsRds": 1.24
+    "monthlyUsd": 357.25,
+    "note": "Storage is billed on all three nodes, less 10 GB each.",
+    "vsRds": 1.22
+   },
+   {
+    "size": "M",
+    "provider": "aurora-standard",
+    "name": "Amazon Aurora PostgreSQL, Aurora Standard (us-east-1)",
+    "plan": "db.r7g.large writer + replica, Aurora Standard, before I/O",
+    "ha": true,
+    "monthlyUsd": 422.96,
+    "note": "Plus $0.20 per million I/O requests: I/O-Optimized is cheaper above about 731 million a month.",
+    "vsRds": 1.45
    },
    {
     "size": "M",
     "provider": "aiven",
     "name": "Aiven for PostgreSQL (aws-us-east-1)",
-    "plan": "business-8 (2 CPU, 8 GB, 175 GB included, one standby)",
+    "plan": "business-8 (2 CPU, 8 GB, 175 GiB + 30 GiB, one standby)",
     "ha": true,
-    "monthlyUsd": 470.3,
-    "note": "",
-    "vsRds": 1.61
+    "monthlyUsd": 475.3,
+    "note": "Disk grows in 10 GiB steps, so 200 GB is 205 GiB.",
+    "vsRds": 1.63
    },
    {
     "size": "M",
@@ -230,11 +249,11 @@
     "size": "L",
     "provider": "xata",
     "name": "Xata (Xata Cloud)",
-    "plan": "2xlarge (8 vCPU, 32 GB), one node",
-    "ha": false,
-    "monthlyUsd": 560.32,
-    "note": "No HA option in the pricing.",
-    "vsRds": 0.46
+    "plan": "2xlarge (8 vCPU, 32 GB) + one replica",
+    "ha": true,
+    "monthlyUsd": 840.64,
+    "note": "Replica price assumed equal to the primary instance, storage counted once.",
+    "vsRds": 0.69
    },
    {
     "size": "L",
@@ -243,7 +262,7 @@
     "plan": "Launch, 8 CU always on, one compute",
     "ha": false,
     "monthlyUsd": 969.04,
-    "note": "No standby compute. Scale plan: $0.222 per CU-hour.",
+    "note": "No standby compute. Launch has no uptime SLA; on Scale ($0.222 per CU-hour) this is $1,646. Restore history not included.",
     "vsRds": 0.8
    },
    {
@@ -273,7 +292,7 @@
     "plan": "Crunchy Bridge Standard-32 (8 cores, 32 GB) with HA",
     "ha": true,
     "monthlyUsd": 1220,
-    "note": "",
+    "note": "Storage counted once; $1,320 if HA doubles it.",
     "vsRds": 1
    },
    {
@@ -302,19 +321,19 @@
     "name": "PlanetScale Postgres (AWS us-east-1)",
     "plan": "PS-640 HA (8 vCPU, 64 GB; primary + 2 replicas)",
     "ha": true,
-    "monthlyUsd": 1510,
-    "note": "PS-320 HA (4 vCPU, 32 GB) would be $945 with storage.",
+    "monthlyUsd": 1506.25,
+    "note": "PS-320 HA (4 vCPU, 32 GB) would be about $941 with storage.",
     "vsRds": 1.24
    },
    {
     "size": "L",
-    "provider": "aiven",
-    "name": "Aiven for PostgreSQL (aws-us-east-1)",
-    "plan": "business-32 (4 CPU, 30 GB, 700 GB included, one standby)",
+    "provider": "aurora-standard",
+    "name": "Amazon Aurora PostgreSQL, Aurora Standard (us-east-1)",
+    "plan": "db.r7g.2xlarge writer + replica, Aurora Standard, before I/O",
     "ha": true,
-    "monthlyUsd": 1640.28,
-    "note": "No 8 CPU / 32 GB plan: this one has half the CPUs. business-64 (8 CPU, 61 GB) is $2,500.",
-    "vsRds": 1.35
+    "monthlyUsd": 1714.76,
+    "note": "Plus $0.20 per million I/O requests: I/O-Optimized is cheaper above about 3 billion a month.",
+    "vsRds": 1.41
    },
    {
     "size": "L",
@@ -325,6 +344,16 @@
     "monthlyUsd": 2323.02,
     "note": "64 GB RAM, twice the reference size.",
     "vsRds": 1.91
+   },
+   {
+    "size": "L",
+    "provider": "aiven",
+    "name": "Aiven for PostgreSQL (aws-us-east-1)",
+    "plan": "business-64 (8 CPU, 61 GB, 1,000 GB included, one standby)",
+    "ha": true,
+    "monthlyUsd": 2500.25,
+    "note": "No 8 CPU / 32 GB plan. business-32 (4 CPU, 30 GB) plus 300 GB would be $1,640.",
+    "vsRds": 2.06
    }
   ]
  }
