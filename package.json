@@ -1,0 +1,25 @@
+{
+  "name": "rds-alternatives-measured",
+  "version": "1.0.0",
+  "description": "Measure branching and major version upgrades on managed Postgres, and price the same three sizes on RDS and its alternatives.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "neon-branch": "node scripts/01-neon-branch.mjs",
+    "neon-upgrade": "node scripts/02-neon-major-upgrade.mjs",
+    "supabase-free": "node scripts/03-supabase-free.mjs",
+    "local-upgrade": "node scripts/04-local-upgrade.mjs",
+    "local-clone": "node scripts/05-local-clone.mjs",
+    "prices": "node scripts/06-prices.mjs",
+    "summarize": "node scripts/07-summarize.mjs",
+    "verify-stamps": "node scripts/08-verify-stamps.mjs",
+    "teardown": "node scripts/99-teardown.mjs"
+  },
+  "dependencies": {
+    "pg": "8.16.3"
+  }
+}

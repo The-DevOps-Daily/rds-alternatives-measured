@@ -1,0 +1,1072 @@
+{
+ "verifiedOn": "2026-11-23",
+ "providers": [
+  {
+   "id": "aws-rds-postgresql",
+   "name": "AWS RDS for PostgreSQL",
+   "branching": {
+    "mechanism": "No branching. Restore a DB snapshot or do a point-in-time restore, which always creates a new DB instance. Snapshot restores lazy-load blocks from S3; PITR initializes new volumes at up to 4 TiB/hour on gp3/io2.",
+    "carriesData": "yes",
+    "freeTier": "No branching feature on any tier. Restores are ordinary new instances (AWS Free Tier eligibility for restored instances not verified).",
+    "timeScalesWithSize": "yes",
+    "cost": "Billed as a full new DB instance (compute plus storage) for as long as it runs.",
+    "sources": [
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html",
+      "quote": "You can't restore from a DB snapshot to an existing DB instance; you create a new DB instance when you restore the snapshot."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html",
+      "quote": "The DB instance continues to load data in the background. This is known as lazy loading."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html",
+      "quote": "If you access data that hasn't been loaded yet, the DB instance immediately downloads the requested data from Amazon S3, and then continues loading the rest of the data in the background."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIT.html",
+      "quote": "You can restore a DB instance to a specific point in time, creating a new DB instance without modifying the source DB instance."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIT.html",
+      "quote": "volumes continue to load data blocks from Amazon S3 in the background at a rate of up to 4 TiB per hour for volumes that use gp3 or io2 Block Express storage."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service in-place upgrade (pg_upgrade) via ModifyDBInstance, or RDS Blue/Green Deployments (green copy kept in sync, then switchover). Blue/Green uses logical replication for major upgrades in some cases, so DDL, DCL, sequences and new large objects are not replicated.",
+    "selfService": true,
+    "downtimeClaim": "In-place: downtime not quantified; in-Region read replicas are upgraded with the primary and 'might increase downtime'. Blue/Green: 'switchover typically takes under a minute'.",
+    "statistics": "Docs say optimizer statistics are not transferred; run ANALYZE on every database after the upgrade.",
+    "rollback": "No in-place rollback. With backup retention > 0, RDS takes snapshots before and after the upgrade; roll back by restoring the pre-upgrade snapshot to a new instance. Blue/Green keeps the old blue instance after switchover (it keeps billing).",
+    "latestMajor": "18 (18.6 is the newest upgrade target listed). PostgreSQL 19 RC1 only in the RDS Database Preview environment.",
+    "sources": [
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.html",
+      "quote": "doesn't apply major version upgrades automatically. To perform a major version upgrade, you modify your database manually."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.Process.html",
+      "quote": "read replica upgrades might increase downtime on the primary DB instance."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.Process.html",
+      "quote": "If your backup retention period is greater than 0, the upgrade process creates DB snapshots of your database before and after upgrading."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.Process.html",
+      "quote": "Optimizer statistics aren't transferred during a major version upgrade, so you need to regenerate all statistics to avoid performance issues."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments-overview.html",
+      "quote": "The switchover typically takes under a minute with no data loss and no need for application changes."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments-overview.html",
+      "quote": "Under certain conditions, RDS for PostgreSQL uses logical replication instead of physical replication to keep the green environment in sync with the blue environment."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments-considerations.html",
+      "quote": "Data definition language (DDL) statements, such as CREATE TABLE and CREATE SCHEMA, aren't replicated from the blue environment to the green environment."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments-considerations.html",
+      "quote": "You must delete the blue/green deployment and all green databases, then recreate it."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments-considerations.html",
+      "quote": "A retained blue DB instance still incurs charges for compute and storage until you delete"
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-versions.html",
+      "quote": "PostgreSQL version 19 RC1 in the Amazon RDS Preview environment"
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "After RDS end of standard support, instances are automatically enrolled in paid RDS Extended Support (per vCPU-hour, rate rises in year 3) for up to 3 years, then RDS force-upgrades. PG13: standard support ended 28 Feb 2026, Extended Support year-1 pricing from 1 Mar 2026, year-3 pricing from 1 Mar 2028, end 28 Feb 2029. PG14: standard support ends 28 Feb 2027, Extended Support pricing from 1 Mar 2027, year 3 from 1 Mar 2029, end 28 Feb 2030. Example rate: PG12 in US East (Ohio) $0.100 per vCPU-hr years 1-2, $0.200 year 3.",
+    "sources": [
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+      "quote": "You can continue running a major version past its RDS end of standard support date for a fee."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+      "quote": "RDS Extended Support is available for up to 3 years past the RDS end of standard support date for a major engine version. After this time, if you haven't upgraded your major engine version to a supported version, then Amazon RDS will automatically upgrade your major engine version."
+     },
+     {
+      "url": "https://aws.amazon.com/rds/postgresql/pricing/",
+      "quote": "For provisioned instances on RDS for PostgreSQL, RDS Extended Support is priced per vCPU per hour."
+     },
+     {
+      "url": "https://aws.amazon.com/rds/postgresql/pricing/",
+      "quote": "If you are deployed in US East (Ohio), you will be charged $0.100 per vCPU-hr between March 1, 2025 to February 28, 2027. Starting March 1, 2027, you will be charged $0.200 per vCPU-hr."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+      "quote": "PostgreSQL 14 30 September 2021 3 February 2022 12 November 2026 28 February 2027 1 March 2027 1 March 2029 28 February 2030"
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+      "quote": "PostgreSQL 13 24 September 2020 24 February 2021 November 2025 28 February 2026 1 March 2026 1 March 2028 28 February 2029"
+     }
+    ]
+   },
+   "notVerified": [
+    "Whether a restored instance counts toward the AWS Free Tier",
+    "A published in-place upgrade downtime figure (none found)",
+    "Whether the 'statistics aren't transferred' note was updated for PG18 pg_upgrade, which can keep statistics (RDS docs still say run ANALYZE)"
+   ]
+  },
+  {
+   "id": "aws-aurora-postgresql",
+   "name": "Amazon Aurora PostgreSQL",
+   "branching": {
+    "mechanism": "Aurora fast database cloning: copy-on-write clone of the cluster volume into a new, independent cluster. Up to 15 copy-on-write clones per source; the 16th is a full copy (acts like PITR). Same Region only; cross-account cloning via AWS RAM.",
+    "carriesData": "yes",
+    "freeTier": "not verified",
+    "timeScalesWithSize": "no",
+    "cost": "Clone is a new cluster: you pay for its DB instances. Storage is shared; the clone pays only for pages it changes (source keeps paying for shared pages).",
+    "sources": [
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html",
+      "quote": "Aurora uses a copy-on-write protocol to create a clone."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html",
+      "quote": "Creating a clone is faster and more space-efficient than physically copying the data using"
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html",
+      "quote": "You can create up to 15 clones that use the copy-on-write protocol from each source Aurora DB cluster. After a source DB cluster has 15 copy-on-write clones, the next clone that you create from that DB cluster is a full copy."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html",
+      "quote": "You can't create a clone in a different AWS Region from the source Aurora DB cluster."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Clone.html",
+      "quote": "For pages that are identical between the source volume and the clone, the storage charges apply only to the original cluster."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service in-place major upgrade (Aurora snapshots the cluster first), or Aurora Blue/Green Deployments.",
+    "selfService": true,
+    "downtimeClaim": "In-place: not quantified. Blue/Green: 'typically under a minute depending on your workload'.",
+    "statistics": "Optimizer statistics are not carried over; run ANALYZE on every database.",
+    "rollback": "Restore the automatic 'preupgrade' cluster snapshot to get the old version back (new cluster). PITR is blocked during the upgrade.",
+    "latestMajor": "18 (Aurora PostgreSQL 18.6 released 29 Sep 2026). Aurora adopts new majors within 8 months of the community .1 release.",
+    "sources": [
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.html",
+      "quote": "Amazon Aurora doesn't apply major version upgrades automatically."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.html",
+      "quote": "When you initiate the upgrade process to a new major version, Aurora PostgreSQL takes a snapshot of the Aurora DB cluster before it makes any changes to your cluster."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.html",
+      "quote": "After the upgrade completes, you can use the snapshot that Aurora created and stored in your manual snapshot list to restore the DB cluster to its previous version, if necessary."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.html",
+      "quote": "You can't do a point-in-time restore of your cluster during this process."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.PostgreSQL.MajorVersion.html",
+      "quote": "Run the ANALYZE operation to refresh the pg_statistic table."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments-overview.html",
+      "quote": "Switch over quickly, typically under a minute depending on your workload."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "quote": "18.6 13 August 2026 29 September 2026 28 February 2028"
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "quote": "Within 8 months of the community's first minor release for the new major version <major>.1"
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "Same RDS Extended Support model: paid per vCPU-hour after Aurora end of standard support. PG13: standard support ended 28 Feb 2026, year-1 pricing 1 Mar 2026, year-3 pricing 1 Mar 2028, end 28 Feb 2029. PG14: standard support ends 28 Feb 2027, year-1 pricing 1 Mar 2027, year-3 1 Mar 2029, end 28 Feb 2030.",
+    "sources": [
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "quote": "a major version past its Aurora end of standard support date for a fee."
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "quote": "Aurora PostgreSQL 13.9 26 August 2021 28 February 2026 1 March 2026 1 March 2028 28 February 2029"
+     },
+     {
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "quote": "Aurora PostgreSQL 14.6 24 February 2022 28 February 2027 1 March 2027 1 March 2029 28 February 2030"
+     }
+    ]
+   },
+   "notVerified": [
+    "Cross-account clone details beyond 'AWS RAM' (not read)",
+    "Aurora free tier for clones",
+    "Published in-place upgrade downtime figure"
+   ]
+  },
+  {
+   "id": "gcp-cloud-sql-postgresql",
+   "name": "Google Cloud SQL for PostgreSQL",
+   "branching": {
+    "mechanism": "Clone creates a new, independent instance. 'Fast clone' (same zone, matching disk, no PITR timestamp) uses an Instant Snapshot and is metadata-only; otherwise 'standard clone' does a full backup and restore. Backups and replicas are not copied.",
+    "carriesData": "yes",
+    "freeTier": "not verified (no Cloud SQL free tier found)",
+    "timeScalesWithSize": "yes",
+    "cost": "Clone is a full new instance billed at normal instance rates (pricing for clones not stated separately).",
+    "sources": [
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/clone-instance",
+      "quote": "Cloning a Cloud SQL instance creates a new instance that is a copy of the source instance. The new instance is completely independent from the source instance."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/clone-instance",
+      "quote": "The duration of a standard cloning operation is proportional to the database size."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/clone-instance",
+      "quote": "This process is a metadata-only operation, so the size of the data does not affect the clone creation time."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/clone-instance",
+      "quote": "If your cloning operation requires restoring to a specific point-in-time recovery (PITR) timestamp, the system defaults to the standard clone workflow."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/clone-instance",
+      "quote": "No. You need to create new replicas for the new instance."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service in-place major version upgrade using pg_upgrade, with an optional precheck operation. Alternative: migrate data to a new instance (for minimal downtime).",
+    "selfService": true,
+    "downtimeClaim": "Instance is unavailable for the upgrade; HA does not fail over to avoid downtime. No figure given.",
+    "statistics": "Run ANALYZE on the primary after the upgrade.",
+    "rollback": "Automatic pre-upgrade and post-upgrade backups. Roll back by restoring the pre-upgrade backup to a new 'recovery instance' on the old version. An in-progress upgrade can be cancelled.",
+    "latestMajor": "18 (default, 18.6). No PostgreSQL 19 found in the version list.",
+    "sources": [
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "The Cloud SQL for the PostgreSQL in-place upgrade operation uses the pg_upgrade utility."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "Upgrading requires the instance to become unavailable for a period of time."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "HA does not fail over traffic to avoid downtime, and HA instances experience standard in-place upgrade downtime."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "Makes a pre-upgrade backup."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "Run ANALYZE on your primary instance to update the system statistics after the upgrade."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "You do so by restoring your pre-upgrade backup to a Cloud SQL recovery instance, which is a new instance running the pre-upgrade version."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace",
+      "quote": "Cloud SQL lets you run a precheck on your instance before a major version upgrade."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/db-versions",
+      "quote": "PostgreSQL 18 (default) 18.6"
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "Instances on a version past Cloud SQL EOL (3 months after community EOL) are auto-enrolled in paid extended support (per vCPU-hour for dedicated core), charged since 1 May 2025. After 3 years in extended support the version is deprecated and Cloud SQL auto-upgrades instances to the default major version. PG13: extended support from 1 Feb 2026, deprecation 1 Feb 2029. PG14: extended support from 1 Feb 2027, deprecation 1 Feb 2030.",
+    "sources": [
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/extended-support",
+      "quote": "On the date when a major version enters extended support, all instances that are running the major version are enrolled automatically and are billed for extended support, in addition to regular instance charges."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/extended-support",
+      "quote": "Starting on May 1, 2025, all instances running on major versions that have reached end of life (EOL) will be charged for extended support."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/postgres/extended-support",
+      "quote": "When a major version is deprecated, Cloud SQL upgrades all deprecated major version instances to the default major version automatically."
+     },
+     {
+      "url": "https://cloud.google.com/sql/pricing",
+      "quote": "For dedicated-core instances, extended support is priced per vCPU per hour and charged for every second that the instance is running."
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/db-versions",
+      "quote": "PostgreSQL 14 14.24 November 11, 2021 February 1, 2027 February 1, 2030"
+     },
+     {
+      "url": "https://cloud.google.com/sql/docs/db-versions",
+      "quote": "PostgreSQL 13 13.23 November 5, 2020 February 1, 2026 February 1, 2029"
+     }
+    ]
+   },
+   "notVerified": [
+    "Exact downtime figure for in-place upgrade",
+    "Clone billing language (assumed normal instance pricing)",
+    "Whether a free trial covers clones"
+   ]
+  },
+  {
+   "id": "azure-postgresql-flexible",
+   "name": "Azure Database for PostgreSQL Flexible Server",
+   "branching": {
+    "mechanism": "No branching. Point-in-time restore (latest, custom or 'fast restore' to a full backup) always creates a new server with the source's configuration.",
+    "carriesData": "yes",
+    "freeTier": "not verified",
+    "timeScalesWithSize": "yes",
+    "cost": "Restored server is a full new server at the source's tier, vCores and storage size.",
+    "sources": [
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-backup-restore",
+      "quote": "performing a PITR creates a new server in the same region as your source server, but you can choose the availability zone."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-backup-restore",
+      "quote": "It's created with the source server's configuration for the pricing tier, compute generation, number of virtual cores, storage size, backup retention period, and backup redundancy option."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-backup-restore",
+      "quote": "The overall time to restore and recovery typically depends on the size of data and the amount of recovery to perform."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-backup-restore",
+      "quote": "The overall recovery time usually takes from a few minutes up to a few hours."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service in-place major version upgrade with pg_upgrade (can skip versions). Optional Upgrade Validation Checks; automatic precheck; implicit backup before the upgrade. HA is disabled and re-enabled; read replicas must be deleted first.",
+    "selfService": true,
+    "downtimeClaim": "'shorter downtime than data migration'; no figure. The service stops during the upgrade.",
+    "statistics": "Run ANALYZE in each database after the upgrade.",
+    "rollback": "Implicit backup is used to restore the previous version only if the upgrade errors. No rollback after success stated.",
+    "latestMajor": "19 in preview (East Asia region only, from 19 Nov 2026); 18 (18.6) GA.",
+    "sources": [
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade",
+      "quote": "In-place upgrades are faster and involve shorter downtime than data migration."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade",
+      "quote": "If the precheck is successful, the Azure Database for PostgreSQL flexible server stops the service and takes an implicit backup just before starting the upgrade. The service can use this implicit backup to restore the database instance to its previous version if there's an upgrade error."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade",
+      "quote": "An Azure Database for PostgreSQL flexible server uses the pg_upgrade tool to perform in-place major version upgrades."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade",
+      "quote": "You must delete the read replica (including any cascading read replica) before upgrading the primary server."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade",
+      "quote": "After the major version upgrade is complete, run the ANALYZE command in each database to refresh the pg_statistic table."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade",
+      "quote": "During the preview, PostgreSQL 19 is available only in the East Asia region, so you can upgrade to it only for servers in that region."
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "Servers on versions past Azure standard support are automatically enrolled in paid Extended Support. PG11-13: standard support ended 31 Jul 2026, Extended Support from 1 Aug 2026, billing from 1 Sep 2026 after a one-month grace period; PG13 Extended Support ends 12 Nov 2028. PG14: standard support ends 31 Jan 2027, Extended Support 1 Feb 2027 to 11 Nov 2029. Price per vCore not captured.",
+    "sources": [
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/configure-maintain/extended-support",
+      "quote": "Automatic enrollment: On August 1, 2026, the service automatically enrolls PostgreSQL servers running unsupported versions in Extended Support."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/configure-maintain/extended-support",
+      "quote": "Grace period: A one-month grace period is provided for PostgreSQL versions 11, 12, and 13. Extended support billing starts on September 1, 2026."
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/configure-maintain/extended-support",
+      "quote": "13 May 25, 2021 November 13, 2025 July 31, 2026 August 1, 2026 November 12, 2028"
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/configure-maintain/extended-support",
+      "quote": "14 June 29, 2022 November 12, 2026 January 31, 2027 February 1, 2027 November 11, 2029"
+     },
+     {
+      "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-version-policy",
+      "quote": "In rare cases where a critical vulnerability in a retired PostgreSQL version poses a threat to the service, Azure might stop affected servers to protect the platform."
+     }
+    ]
+   },
+   "notVerified": [
+    "Extended Support price per vCore",
+    "Whether Azure force-upgrades after Extended Support ends",
+    "Free account coverage for restored servers"
+   ]
+  },
+  {
+   "id": "digitalocean-managed-postgresql",
+   "name": "DigitalOcean Managed PostgreSQL",
+   "branching": {
+    "mechanism": "Fork: creates a new cluster from the latest state or any point in the last 7 days (backup restore). Data and configuration are copied during provisioning.",
+    "carriesData": "yes",
+    "freeTier": "No free tier: clusters start at $15/month.",
+    "timeScalesWithSize": "yes",
+    "cost": "Fork is a full new cluster billed at its own monthly/hourly rate until destroyed.",
+    "sources": [
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/fork-clusters/",
+      "quote": "Forking is a cluster-level action that copies the source cluster's data and configuration settings."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/fork-clusters/",
+      "quote": "You can fork from any point in time within the last 7 days, the same range covered by the 7-day restoration window."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/fork-clusters/",
+      "quote": "Creating a fork takes longer than creating a new cluster because the source cluster's data and configuration settings are copied to the fork during provisioning."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/fork-clusters/",
+      "quote": "Review the monthly cost and hourly prorate. Billing stops when you destroy the cluster."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/pricing/",
+      "quote": "Single node clusters begin at $15.00 per month for a single node cluster with 1 GiB of RAM."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service in-place upgrade on the primary node, from the Control Panel (with compatibility check) or API PUT /v2/databases/$DATABASE_ID/upgrade.",
+    "selfService": true,
+    "downtimeClaim": "Causes downtime that can last longer than routine maintenance; duration depends on size and object count and 'isn't predictable in advance'.",
+    "statistics": "not verified (docs do not mention ANALYZE)",
+    "rollback": "None. Once started you cannot go back, and old backups cannot be used for PITR. Docs suggest adding a read-only node as a backup and testing on a fork.",
+    "latestMajor": "18 (Standard Edition default; Advanced Edition supports 16-18).",
+    "sources": [
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/upgrade-version/",
+      "quote": "Major version upgrades run in place on the primary node and cause downtime that can last longer than a routine maintenance update."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/upgrade-version/",
+      "quote": "How long the upgrade takes depends on the size of the database and the number of objects, such as tables and schemas, so it isn't predictable in advance."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/upgrade-version/",
+      "quote": "Once the upgrade starts, you cannot restore the PostgreSQL instance to the previous version."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/how-to/upgrade-version/",
+      "quote": "The upgrade process also has a small risk of data loss in case of a crash, so consider adding a read-only node as a backup before upgrading."
+     },
+     {
+      "url": "https://raw.githubusercontent.com/digitalocean/openapi/main/specification/resources/databases/databases_upgrade_major_version.yml",
+      "quote": "To upgrade the major version of a database, send a PUT request to `/v2/databases/$DATABASE_ID/upgrade`, specifying the target version."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/postgresql/details/limits/",
+      "quote": "Standard Edition supports PostgreSQL v15, v16, v17, and v18 for new clusters. New Standard Edition clusters default to v18."
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "DO publishes End of Availability and End of Life dates and 'begins scheduled upgrades' at EOL; no paid extended support found. PG13 EOL reached 13 Nov 2025; PG14 EOL reached 12 Nov 2026 (end of availability 12 May 2026).",
+    "sources": [
+     {
+      "url": "https://docs.digitalocean.com/products/databases/version-support-policy/",
+      "quote": "Use these dates to plan version upgrades before DigitalOcean ends support or begins scheduled upgrades."
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/version-support-policy/",
+      "quote": "14 EOL reached 12 May 2026 12 November 2026"
+     },
+     {
+      "url": "https://docs.digitalocean.com/products/databases/version-support-policy/",
+      "quote": "13 EOL reached 13 May 2025 13 November 2025"
+     }
+    ]
+   },
+   "notVerified": [
+    "What exactly happens to a cluster past EOL (forced upgrade timing)",
+    "Whether DO runs ANALYZE after upgrade",
+    "Fork duration figures"
+   ]
+  },
+  {
+   "id": "supabase",
+   "name": "Supabase",
+   "branching": {
+    "mechanism": "Preview branches are separate Supabase projects. Settings are copied; the schema is rebuilt from migrations, not cloned. Data-less by default: data comes from a seed file, or the dashboard 'Include data' option (Management API with_data flag).",
+    "carriesData": "optional",
+    "freeTier": "No. Branching is on the Pro Plan and above ('Not included' on Free).",
+    "timeScalesWithSize": "unknown",
+    "cost": "No fixed per-branch fee; billed for the branch's compute and usage. Micro branch starts at $0.01344 per hour. Compute Credits do not apply; branches are not covered by the Spend Cap.",
+    "sources": [
+     {
+      "url": "https://supabase.com/docs/guides/deployment/branching",
+      "quote": "Data-less by default: By default, new branches do not start with any data or storage objects from your base project."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/deployment/branching",
+      "quote": "To start your branches with data, you can use a seed file if using the GitHub integration, or the Include data option if you create the branch from the Supabase Dashboard."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/deployment/branching",
+      "quote": "The database schema isn't cloned."
+     },
+     {
+      "url": "https://api.supabase.com/api/v1-json",
+      "quote": "\"with_data\":{\"type\":\"boolean\"}"
+     },
+     {
+      "url": "https://supabase.com/pricing",
+      "quote": "You can also use Branching, available on the Pro Plan and above, to run a separate development environment off your production project."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/platform/manage-your-usage/branching",
+      "quote": "There is no fixed fee for a Preview branch. You only pay for the usage it incurs. A branch running on the default Micro Compute size starts at $0.01344 per hour."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/platform/manage-your-usage/branching",
+      "quote": "Branches are not covered by the Spend Cap."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service 'Upgrade project' button (or experimental Management API POST /v1/projects/{ref}/upgrade plus /upgrade/eligibility and /upgrade/status). A new instance is created and data is upgraded with pg_upgrade.",
+    "selfService": true,
+    "downtimeClaim": "Project is offline. Smaller databases typically ~15 minutes; larger can take an hour or more. Dashboard (and eligibility API duration_estimate_hours) gives an estimate.",
+    "statistics": "not verified (docs say to watch for new slow queries; no ANALYZE instruction found)",
+    "rollback": "If the upgrade fails, the original database comes back online. No rollback after success stated.",
+    "latestMajor": "17 (17.11). Management API engine enums list 15, 17 and 17-oriole; no PostgreSQL 18 found.",
+    "sources": [
+     {
+      "url": "https://supabase.com/docs/guides/platform/upgrading",
+      "quote": "Your project is taken offline and the Dashboard shows the upgrade status."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/platform/upgrading",
+      "quote": "Your data is copied to the new instance and upgraded using pg_upgrade."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/platform/upgrading",
+      "quote": "If the upgrade should fail, your original database would be brought back up online and be able to service requests."
+     },
+     {
+      "url": "https://supabase.com/docs/guides/platform/upgrading",
+      "quote": "Projects with read-replicas can't be upgraded. You need to delete the replicas and re-create them after upgrade completes."
+     },
+     {
+      "url": "https://supabase.com/changelog/45827-deprecation-notice-support-for-postgres-14-ending-on-1st-july-2026",
+      "quote": "Smaller databases typically complete in around 15 minutes, while larger databases can take an hour or more depending on your compute size and disk configuration"
+     },
+     {
+      "url": "https://api.supabase.com/api/v1-json",
+      "quote": "This is an **experimental** endpoint. It is subject to change or removal in future versions."
+     },
+     {
+      "url": "https://api.supabase.com/api/v1-json",
+      "quote": "\"duration_estimate_hours\":{\"type\":\"number\"}"
+     },
+     {
+      "url": "https://api.supabase.com/api/v1-json",
+      "quote": "\"postgres_engine\":{\"type\":\"string\",\"enum\":[\"15\",\"17\",\"17-oriole\"]"
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "Deprecated versions are force-upgraded: Postgres 14 support ended 1 Jul 2026 and projects still on it were automatically upgraded to the latest version (or paused if they used unsupported extensions). No paid extended support. PG13 date not stated.",
+    "sources": [
+     {
+      "url": "https://supabase.com/changelog/45827-deprecation-notice-support-for-postgres-14-ending-on-1st-july-2026",
+      "quote": "All projects still on a deprecated Postgres version on the 1st July 2026 will automatically be upgraded to the latest Postgres version available. If extensions that are no longer supported are being used, the projects will be paused instead and no longer serve traffic."
+     }
+    ]
+   },
+   "notVerified": [
+    "Whether in-place upgrade is available on the Free plan (docs do not restrict it)",
+    "Whether 'Include data' branch creation time scales with size",
+    "Whether Supabase runs ANALYZE after upgrade",
+    "PostgreSQL 18 availability (no evidence found)"
+   ]
+  },
+  {
+   "id": "neon",
+   "name": "Neon (Lakebase Postgres)",
+   "branching": {
+    "mechanism": "Copy-on-write branch of a current or past state, with all data by default. Schema-only branches are also available.",
+    "carriesData": "yes",
+    "freeTier": "Yes: 10 branches/project on Free (1 GB storage shared across branches); extra branches not available on Free.",
+    "timeScalesWithSize": "no",
+    "cost": "Launch 10 and Scale 25 branches/project included; extra branches $1.50/branch-month (~$0.002/hour) up to 5,000/project. Child branch storage billed as min(changes since creation, logical size). Compute billed separately.",
+    "sources": [
+     {
+      "url": "https://neon.com/docs/introduction/branching",
+      "quote": "A branch is a copy-on-write clone of your data. You can create a branch from a current or past state."
+     },
+     {
+      "url": "https://neon.com/docs/introduction/branching",
+      "quote": "By default, branches are created with all of the data that existed in the parent branch"
+     },
+     {
+      "url": "https://neon.com/docs/introduction/branching",
+      "quote": "Learn how to instantly create and manage branches with the Neon API"
+     },
+     {
+      "url": "https://neon.com/docs/introduction/plans",
+      "quote": "Free: 10 branches/project"
+     },
+     {
+      "url": "https://neon.com/docs/introduction/plans",
+      "quote": "Cost: $1.50/branch-month (~$0.002/hour)."
+     },
+     {
+      "url": "https://neon.com/docs/introduction/plans",
+      "quote": "Extra branches are not available on the Free plan."
+     },
+     {
+      "url": "https://neon.com/docs/introduction/plans",
+      "quote": "child branch storage is capped at your actual data size: you're billed for the minimum of accumulated changes or logical data size, whichever is lower."
+     },
+     {
+      "url": "https://neon.com/docs/guides/branching-schema-only",
+      "quote": "On the Free plan, all branches in a project share a total storage limit of 1 GB."
+     },
+     {
+      "url": "https://neon.com/docs/introduction/branching",
+      "quote": "This page covers branching in Lakebase Postgres."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "No in-place upgrade and no pg_upgrade. Create a new project on the new version and migrate: Import Data Assistant (under 10 GB), pg_dump/pg_restore, or logical replication (near-zero downtime).",
+    "selfService": true,
+    "downtimeClaim": "Depends on migration method: 'Some' for dump/restore and the Import Data Assistant, 'Near zero' for logical replication.",
+    "statistics": "not verified (not mentioned; a fresh restore/replication target needs ANALYZE per standard Postgres behaviour, but Neon docs do not say)",
+    "rollback": "Old project remains until you delete it, so rollback is pointing apps back (implied, not stated).",
+    "latestMajor": "19 (19.0 available 2026-11-19, same day as community release); 18 is the default.",
+    "sources": [
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-upgrade",
+      "quote": "To move to a newer major version, such as from Postgres 17 to Postgres 19, create a new project on that version and migrate your data to it."
+     },
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-upgrade",
+      "quote": "Neon doesn't upgrade a project to a new major version in place, and doesn't support pg_upgrade."
+     },
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-upgrade",
+      "quote": "Active databases that can't afford much downtime Near zero"
+     },
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-upgrade",
+      "quote": "Import Data Assistant Databases under 10 GB Some, during the import"
+     },
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-version-policy",
+      "quote": "Neon currently supports Postgres 14, 15, 16, 17, 18, and 19. Postgres 18 is the default version for new projects."
+     },
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-version-policy",
+      "quote": "2026-11-19 19.0 2026-11-19 Same day"
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "No Neon-specific EOL, forced-upgrade or extended-support charge found. Neon still lists Postgres 14 as supported (14.25 as of Nov 2026).",
+    "sources": [
+     {
+      "url": "https://neon.com/docs/postgresql/postgres-version-policy",
+      "quote": "As of November 2026, Neon runs the latest community release for every supported major version: 19.0, 18.7, 17.12, 16.16, 15.20, and 14.25."
+     }
+    ]
+   },
+   "notVerified": [
+    "Neon policy for PG14 after community EOL",
+    "Rollback guidance",
+    "Post-migration ANALYZE guidance",
+    "Databricks ownership (not checked in docs fetched)"
+   ]
+  },
+  {
+   "id": "crunchy-bridge",
+   "name": "Crunchy Bridge (Crunchy Data, acquired by Snowflake)",
+   "branching": {
+    "mechanism": "Fork: restore a backup or point in time (10-day window) into a new cluster with its own connection string.",
+    "carriesData": "yes",
+    "freeTier": "No free tier found; cheapest is the paid Hobby tier.",
+    "timeScalesWithSize": "unknown",
+    "cost": "Fork is a new cluster billed on its own plan.",
+    "sources": [
+     {
+      "url": "https://docs.crunchybridge.com/concepts/backups",
+      "quote": "You can create a new fork from any of the backups in the standard 10-day window by clicking the fork icon. This process will create a new cluster according to the options you specify, and the new cluster will be populated with the data from the backup."
+     },
+     {
+      "url": "https://docs.crunchybridge.com/how-to/restore-backups",
+      "quote": "cb create --fork <cluster-id> --at <timestamp like '2023-03-15T23:40:00Z'>"
+     },
+     {
+      "url": "https://docs.crunchybridge.com/concepts/plans-pricing",
+      "quote": "Crunchy Bridge offers three tiers of databases -- Hobby, Standard, and Memory -- to cover a variety of use cases."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service (dashboard or `cb upgrade start`). A hidden 'upgrade standby' replica is built; at maintenance time writes halt, the standby is detached, pg_upgrade runs on it, and it is promoted (failover).",
+    "selfService": true,
+    "downtimeClaim": "Writes halted during pg_upgrade on the standby plus failover; no figure. Can be scheduled up to 3 days ahead.",
+    "statistics": "Platform automatically runs vacuumdb --analyze-in-stages after upgrade; queries may use poor plans until it finishes.",
+    "rollback": "If pg_upgrade fails, writes resume on the original. After success no rollback; options are detaching a read replica before finalizing, or a PITR fork from just before the upgrade.",
+    "latestMajor": "18 (supports 15-18; 14 being phased out; 13 gone).",
+    "sources": [
+     {
+      "url": "https://docs.crunchybridge.com/guides/major-version-upgrades",
+      "quote": "Postgres major version upgrades on Crunchy Bridge work by provisioning a hidden hot standby of the cluster being upgraded, an \"upgrade standby.\""
+     },
+     {
+      "url": "https://docs.crunchybridge.com/guides/major-version-upgrades",
+      "quote": "Halts writes to the active cluster server"
+     },
+     {
+      "url": "https://docs.crunchybridge.com/guides/major-version-upgrades",
+      "quote": "Promotes the upgrade standby to be the new active cluster server if the pg_upgrade run is successful; otherwise, re-enables writes to the active cluster server and terminates the maintenance"
+     },
+     {
+      "url": "https://docs.crunchybridge.com/guides/major-version-upgrades",
+      "quote": "Run vacuumdb --analyze-in-stages on the upgraded cluster (because planner statistics are not carried forward across major version upgrades)"
+     },
+     {
+      "url": "https://docs.crunchybridge.com/guides/major-version-upgrades",
+      "quote": "A PostgreSQL server that has successfully completed a major version upgrade can not be rolled back to a prior major version."
+     },
+     {
+      "url": "https://docs.crunchybridge.com/concepts/postgres-versions",
+      "quote": "Crunchy Bridge currently supports PostgreSQL versions 15, 16, 17, and 18."
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "Provisioning stops 18 months before community EOL and availability ends 6 months before it; clusters still on the version are then automatically upgraded. PG14: provisioning limited 12 May 2025, availability ended 11 Jun 2026. PG13 no longer available. No extended support fee.",
+    "sources": [
+     {
+      "url": "https://docs.crunchybridge.com/concepts/postgres-versions",
+      "quote": "We will completely remove the availability of that major version six months in advance of the end of community support."
+     },
+     {
+      "url": "https://docs.crunchybridge.com/concepts/postgres-versions",
+      "quote": "If a cluster is still running a Postgres version when Bridge availability ends, it will be automatically upgraded it to a newer version."
+     },
+     {
+      "url": "https://docs.crunchybridge.com/concepts/postgres-versions",
+      "quote": "14 May 12, 2025 June 11, 2026 November 12, 2026"
+     },
+     {
+      "url": "https://docs.crunchybridge.com/concepts/postgres-versions",
+      "quote": "Postgres 13 is no longer available on Crunchy Bridge."
+     }
+    ]
+   },
+   "notVerified": [
+    "Fork duration vs size",
+    "Whether Crunchy Bridge is still sold to new customers post-acquisition (docs make no Snowflake mention)"
+   ]
+  },
+  {
+   "id": "snowflake-postgres",
+   "name": "Snowflake Postgres (Crunchy successor)",
+   "branching": {
+    "mechanism": "CREATE POSTGRES INSTANCE ... FORK: point-in-time recovery into a full physical copy (new instance), up to 10 days back.",
+    "carriesData": "yes",
+    "freeTier": "not verified",
+    "timeScalesWithSize": "unknown",
+    "cost": "not verified (fork is a new instance with its own compute and storage)",
+    "sources": [
+     {
+      "url": "https://docs.snowflake.com/en/sql-reference/sql/create-postgres-instance",
+      "quote": "The FORK clause uses point-in-time recovery with the same AT | BEFORE syntax as Time Travel, but creates a full physical copy of the Postgres instance:"
+     },
+     {
+      "url": "https://docs.snowflake.com/en/sql-reference/sql/create-postgres-instance",
+      "quote": "You can't fork from a point in time more than 10 days in the past."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service ALTER POSTGRES INSTANCE ... SET POSTGRES_VERSION. Same hidden-replica + pg_upgrade + failover design as Crunchy Bridge.",
+    "selfService": true,
+    "downtimeClaim": "'should typically last no longer than a few minutes'; duration depends on object count, not data size.",
+    "statistics": "not verified on this page",
+    "rollback": "Automatic revert if the upgrade fails; no downgrade after success.",
+    "latestMajor": "18 (16-18 available, 18.3 latest minor listed).",
+    "sources": [
+     {
+      "url": "https://docs.snowflake.com/en/user-guide/snowflake-postgres/postgres-upgrades",
+      "quote": "The hidden replica is upgraded using pg_upgrade. The duration depends on the number of objects in your database, not data size."
+     },
+     {
+      "url": "https://docs.snowflake.com/en/user-guide/snowflake-postgres/postgres-upgrades",
+      "quote": "should typically last no longer than a few minutes."
+     },
+     {
+      "url": "https://docs.snowflake.com/en/user-guide/snowflake-postgres/postgres-upgrades",
+      "quote": "If an upgrade fails, your instance will automatically revert back to the original instance."
+     },
+     {
+      "url": "https://docs.snowflake.com/en/user-guide/snowflake-postgres/postgres-upgrades",
+      "quote": "You can only upgrade to a newer major version. You can't downgrade to a previous major version."
+     },
+     {
+      "url": "https://docs.snowflake.com/en/user-guide/snowflake-postgres/about",
+      "quote": "Postgres major versions 16-18 are currently available."
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "not verified",
+    "sources": []
+   },
+   "notVerified": [
+    "EOL policy",
+    "Fork cost",
+    "Free tier/trial",
+    "ANALYZE after upgrade"
+   ]
+  },
+  {
+   "id": "aiven-postgresql",
+   "name": "Aiven for PostgreSQL",
+   "branching": {
+    "mechanism": "Fork: new independent service built from the latest backup or a point in time; can change cloud, region or plan.",
+    "carriesData": "yes",
+    "freeTier": "No. The Free tier cannot be a fork target ('Cannot fork a service to a free plan') and the Developer tier lists 'No forking'.",
+    "timeScalesWithSize": "unknown",
+    "cost": "Fork is a new service billed at the plan you select.",
+    "sources": [
+     {
+      "url": "https://aiven.io/docs/platform/concepts/service-forking",
+      "quote": "Fork an Aiven service to create a complete copy of it from its latest backup."
+     },
+     {
+      "url": "https://aiven.io/docs/platform/concepts/service-forking",
+      "quote": "When you fork a service, its configuration and data is copied to the new service from the latest backup."
+     },
+     {
+      "url": "https://aiven.io/docs/platform/concepts/service-forking",
+      "quote": "Enter a name, and select the cloud and plan."
+     },
+     {
+      "url": "https://aiven.io/docs/products/postgresql/concepts/pg-free-tier",
+      "quote": "Cannot fork a service to a free plan"
+     },
+     {
+      "url": "https://aiven.io/docs/platform/concepts/free-plan",
+      "quote": "For PostgreSQL: No connection pooling"
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Self-service in-place pg_upgrade (pg_upgrade --check first, uses --link). Standby nodes are removed and rebuilt from a new full backup; read-only replica services are upgraded afterwards.",
+    "selfService": true,
+    "downtimeClaim": "No figure; 'Very large databases may take a long time to upgrade and will be unreadable during the upgrade.' Some risk of downtime and data loss if the node fails.",
+    "statistics": "ANALYZE runs automatically on all tables after the upgrade.",
+    "rollback": "None: the service can't be restored to the previous version, and pre-upgrade backups are hidden and unusable for PITR. Test on a fork first.",
+    "latestMajor": "19 (service creation supported from 2026-09-25 per EOL table).",
+    "sources": [
+     {
+      "url": "https://aiven.io/docs/products/postgresql/howto/upgrade",
+      "quote": "PostgreSQL® in-place upgrades allows to upgrade an instances to a new major version without needing to fork and redirect the traffic."
+     },
+     {
+      "url": "https://aiven.io/docs/products/postgresql/howto/upgrade",
+      "quote": "Very large databases may take a long time to upgrade and will be unreadable during the upgrade."
+     },
+     {
+      "url": "https://aiven.io/docs/products/postgresql/howto/upgrade",
+      "quote": "ANALYZE will be automatically run for all tables after the upgrade to refresh table statistics and optimize queries."
+     },
+     {
+      "url": "https://aiven.io/docs/products/postgresql/howto/upgrade",
+      "quote": "The PostgreSQL instance can't be restored to the previous version."
+     },
+     {
+      "url": "https://aiven.io/docs/products/postgresql/howto/upgrade",
+      "quote": "An automatic check is executed to confirm whether an upgrade is possible (pg_upgrade --check)."
+     },
+     {
+      "url": "https://aiven.io/docs/platform/reference/eol-for-major-versions",
+      "quote": "19 2031-11-07 2031-05-07 2026-09-25"
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "Aiven EOL equals community EOL. After EOL, powered-on services are automatically upgraded; powered-off ones are deleted 7 days later. PG13 EOL 2025-11-13; PG14 EOL 2026-11-12 (creation stopped 2026-05-12). No extended support fee.",
+    "sources": [
+     {
+      "url": "https://aiven.io/docs/platform/reference/eol-for-major-versions",
+      "quote": "Aiven for PostgreSQL® major versions reach EOL on the same date as the upstream open source project's EOL."
+     },
+     {
+      "url": "https://aiven.io/docs/platform/reference/eol-for-major-versions",
+      "quote": "If the service is powered on, it's automatically upgraded to the latest version when possible, or to another supported version."
+     },
+     {
+      "url": "https://aiven.io/docs/platform/reference/eol-for-major-versions",
+      "quote": "13 2025-11-13 2025-05-13 2021-02-15 14 2026-11-12 2026-05-12 2021-11-11"
+     }
+    ]
+   },
+   "notVerified": [
+    "Fork duration vs size",
+    "Whether 19 is GA or preview on Aiven (only the EOL table was checked)"
+   ]
+  },
+  {
+   "id": "planetscale-postgres",
+   "name": "PlanetScale Postgres",
+   "branching": {
+    "mechanism": "Two ways: a new branch from the Branches page (no schema, no data, starts as a PS-DEV single node), or restore a backup into a new branch (schema and data, inherits the parent's cluster size). Each branch is its own dedicated cluster; no copy-on-write.",
+    "carriesData": "optional",
+    "freeTier": "not verified (no free tier found; dev branches begin at $5/month)",
+    "timeScalesWithSize": "unknown",
+    "cost": "Each branch runs on its own cluster and is billed separately; dev branches from $5/month; backup-restored branches cost the same as the parent's cluster size. Storage billed per branch.",
+    "sources": [
+     {
+      "url": "https://planetscale.com/docs/postgres/branching",
+      "quote": "There are two ways to create a new Postgres branch: from the Branches page (no schema or data included) or by restoring from a backup (schema and data included)."
+     },
+     {
+      "url": "https://planetscale.com/docs/postgres/branching",
+      "quote": "Choose the base branch. This currently does not copy the schema."
+     },
+     {
+      "url": "https://planetscale.com/docs/postgres/branching",
+      "quote": "The cluster size, and therefore cost, is inherited from your main parent branch."
+     },
+     {
+      "url": "https://planetscale.com/docs/postgres/branching",
+      "quote": "which does not have any replicas and begins at \\$5/month, depending on the region."
+     },
+     {
+      "url": "https://planetscale.com/docs/postgres/pricing",
+      "quote": "**Each branch runs on its own dedicated cluster** and is billed separately based on its configuration and usage."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "No in-place major upgrade. Create a new database on the new version and do an online migration with the import guides.",
+    "selfService": true,
+    "downtimeClaim": "Depends on the migration (online import); not quantified.",
+    "statistics": "not verified",
+    "rollback": "Old database remains until deleted (implied, not stated).",
+    "latestMajor": "18 (18.7); supports 17 and 18 only.",
+    "sources": [
+     {
+      "url": "https://planetscale.com/docs/postgres/cluster-configuration/versions",
+      "quote": "PlanetScale doesn't currently offer in-place upgrades between major versions of Postgres."
+     },
+     {
+      "url": "https://planetscale.com/docs/postgres/cluster-configuration/versions",
+      "quote": "To upgrade from Postgres 17 to 18, create a new Postgres 18 database and perform an online migration from your existing PlanetScale Postgres 17 database"
+     },
+     {
+      "url": "https://planetscale.com/docs/postgres/cluster-configuration/versions",
+      "quote": "PlanetScale Postgres supports versions 17 and 18 of Postgres."
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "not verified (only 17 and 18 offered, so no PG13/14 policy applies)",
+    "sources": [
+     {
+      "url": "https://planetscale.com/docs/postgres/cluster-configuration/versions",
+      "quote": "PlanetScale Postgres supports versions 17 and 18 of Postgres."
+     }
+    ]
+   },
+   "notVerified": [
+    "Restore-to-branch duration",
+    "Free tier",
+    "EOL policy"
+   ]
+  },
+  {
+   "id": "xata",
+   "name": "Xata",
+   "branching": {
+    "mechanism": "Copy-on-write storage snapshot: a child branch has the parent's exact schema and data at creation; it then runs as an independent Postgres instance in the same region. No merge, no reset in place.",
+    "carriesData": "yes",
+    "freeTier": "No free tier (free trial only; open-source core is free to self-host).",
+    "timeScalesWithSize": "no",
+    "cost": "Each running branch is billed hourly by instance type (scale-to-zero makes idle branches $0 compute); unchanged storage is shared. Xata Cloud from $0.012/hr + $0.28/GB/mo. Branch count limits depend on plan.",
+    "sources": [
+     {
+      "url": "https://xata.io/docs/core-concepts/branching",
+      "quote": "a child branch contains the exact schema and data of its parent at the moment of creation, regardless of database size."
+     },
+     {
+      "url": "https://xata.io/docs/core-concepts/branching",
+      "quote": "Creating a child branch copies the parent's schema and data using a Copy-on-Write storage snapshot, so it completes in seconds even for terabyte-scale databases."
+     },
+     {
+      "url": "https://xata.io/docs/core-concepts/branching",
+      "quote": "Each running branch has its own compute instance, billed hourly by instance type."
+     },
+     {
+      "url": "https://xata.io/docs/core-concepts/branching",
+      "quote": "The number of branches per project and the branch creation rate depend on your plan."
+     },
+     {
+      "url": "https://xata.io/pricing",
+      "quote": "No. Our core platform is available under Apache 2.0. Xata Cloud offers a free trial."
+     }
+    ]
+   },
+   "majorUpgrade": {
+    "method": "Not supported. Branch settings allow minor version upgrades only.",
+    "selfService": false,
+    "downtimeClaim": "n/a",
+    "statistics": "n/a",
+    "rollback": "n/a",
+    "latestMajor": "18 (extensions page lists PostgreSQL 14-18).",
+    "sources": [
+     {
+      "url": "https://xata.io/docs/platform/branch",
+      "quote": "You can upgrade to newer minor versions (e.g., from 17.5 to 17.7) but cannot change the offering type or perform major version upgrades."
+     },
+     {
+      "url": "https://xata.io/docs/platform/branch",
+      "quote": "**No major version changes**: Major version upgrades (e.g., 16.x → 17.x) are not supported through this method"
+     },
+     {
+      "url": "https://xata.io/docs/llms.txt",
+      "quote": "All extensions listed below are currently available for PostgreSQL 14, 15, 16, 17, and 18."
+     }
+    ]
+   },
+   "endOfSupport": {
+    "rule": "not verified",
+    "sources": []
+   },
+   "notVerified": [
+    "Documented path for moving a branch to a new major version (e.g. xata clone into a new base branch)",
+    "EOL policy for PG14",
+    "Exact plan branch limits"
+   ]
+  }
+ ]
+}

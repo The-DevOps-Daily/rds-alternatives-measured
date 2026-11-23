@@ -1,0 +1,12 @@
+{"t":"2026-11-23T16:48:06.132Z","stamp":"dbf636574725","type":"start","rows":10000000,"runs":3,"jobs":4,"region":"aws-eu-central-1","cu":2,"image":"postgres:18.7-bookworm"}
+{"t":"2026-11-23T16:48:10.385Z","stamp":"dbf636574725","type":"project","role":"source","pgVersion":17,"ms":4253}
+{"t":"2026-11-23T16:48:33.617Z","stamp":"dbf636574725","type":"loaded","rows":10000000,"ms":22713,"size":{"database":1575550976,"accounts":1567940608},"statsRows":4}
+{"t":"2026-11-23T16:50:19.687Z","stamp":"dbf636574725","type":"deleted","projectId":"lingering-field-27562477"}
+{"t":"2026-11-23T16:50:23.094Z","stamp":"dbf636574725","type":"project","role":"target","pgVersion":18,"ms":3407}
+{"t":"2026-11-23T16:50:39.568Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":1,"dumpMs":16886,"restoreMs":14854,"analyzeMs":200,"freezeMs":31740,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T16:51:00.828Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":2,"dumpMs":16780,"restoreMs":20384,"analyzeMs":196,"freezeMs":37164,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T16:51:18.637Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"default","run":3,"dumpMs":17128,"restoreMs":16929,"analyzeMs":208,"freezeMs":34057,"statsAfterRestore":0,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T16:51:31.953Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":1,"dumpMs":16660,"restoreMs":12443,"analyzeMs":201,"freezeMs":29103,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T16:51:44.613Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":2,"dumpMs":16677,"restoreMs":11763,"analyzeMs":229,"freezeMs":28440,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T16:51:57.352Z","stamp":"dbf636574725","type":"upgrade","method":"pg_dump/pg_restore","variant":"statistics","run":3,"dumpMs":21039,"restoreMs":11879,"analyzeMs":199,"freezeMs":32918,"statsAfterRestore":4,"fingerprintOk":true,"targetVersion":"18.7 (84da7d8)"}
+{"t":"2026-11-23T16:51:58.152Z","stamp":"dbf636574725","type":"deleted","projectId":"rapid-poetry-40255802"}

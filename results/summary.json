@@ -1,0 +1,611 @@
+{
+ "neonBranch": [
+  {
+   "rows": 1000000,
+   "gb": 0.16,
+   "readyMs": {
+    "n": 10,
+    "median": 2726.5,
+    "min": 2637,
+    "max": 3449
+   },
+   "apiMs": {
+    "n": 10,
+    "median": 469.5,
+    "min": 435,
+    "max": 551
+   },
+   "fullScanMs": {
+    "n": 10,
+    "median": 782.5,
+    "min": 736,
+    "max": 1680
+   },
+   "allDataChecksOk": true
+  },
+  {
+   "rows": 10000000,
+   "gb": 1.58,
+   "readyMs": {
+    "n": 10,
+    "median": 2757,
+    "min": 2232,
+    "max": 3508
+   },
+   "apiMs": {
+    "n": 10,
+    "median": 497,
+    "min": 456,
+    "max": 526
+   },
+   "fullScanMs": {
+    "n": 10,
+    "median": 5727.5,
+    "min": 5219,
+    "max": 15912
+   },
+   "allDataChecksOk": true
+  }
+ ],
+ "neonUpgrade": [
+  {
+   "variant": "default",
+   "rows": 10000000,
+   "gb": 1.58,
+   "dumpMs": {
+    "n": 3,
+    "median": 16886,
+    "min": 16780,
+    "max": 17128
+   },
+   "restoreMs": {
+    "n": 3,
+    "median": 16929,
+    "min": 14854,
+    "max": 20384
+   },
+   "freezeMs": {
+    "n": 3,
+    "median": 34057,
+    "min": 31740,
+    "max": 37164
+   },
+   "analyzeMs": {
+    "n": 3,
+    "median": 200,
+    "min": 196,
+    "max": 208
+   },
+   "statsAfterRestore": [
+    0
+   ],
+   "allDataChecksOk": true
+  },
+  {
+   "variant": "statistics",
+   "rows": 10000000,
+   "gb": 1.58,
+   "dumpMs": {
+    "n": 3,
+    "median": 16677,
+    "min": 16660,
+    "max": 21039
+   },
+   "restoreMs": {
+    "n": 3,
+    "median": 11879,
+    "min": 11763,
+    "max": 12443
+   },
+   "freezeMs": {
+    "n": 3,
+    "median": 29103,
+    "min": 28440,
+    "max": 32918
+   },
+   "analyzeMs": {
+    "n": 3,
+    "median": 201,
+    "min": 199,
+    "max": 229
+   },
+   "statsAfterRestore": [
+    4
+   ],
+   "allDataChecksOk": true
+  }
+ ],
+ "supabaseFree": {
+  "version": "17.12.0.000",
+  "queryableMs": 6648,
+  "upgradeEligible": false,
+  "upgradeTargets": [],
+  "branchStatus": 402,
+  "branchMessage": "Branching is supported only on the Pro plan or above"
+ },
+ "localUpgrade": {
+  "versions": [
+   "postgres (PostgreSQL) 17.12 (Debian 17.12-1.pgdg12+1)",
+   "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg12+5)"
+  ],
+  "cpus": "4",
+  "checksumTrap": [
+   "old cluster does not use data checksums but the new one does"
+  ],
+  "results": [
+   {
+    "rows": 1000000,
+    "gb": 0.16,
+    "method": "copy",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 157,
+     "min": 150,
+     "max": 222
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 3459,
+     "min": 3391,
+     "max": 3491
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 3029,
+     "min": 2962,
+     "max": 3044
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3256,
+     "min": 3256,
+     "max": 3257
+    }
+   },
+   {
+    "rows": 1000000,
+    "gb": 0.16,
+    "method": "link",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 163,
+     "min": 144,
+     "max": 169
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 3133,
+     "min": 3056,
+     "max": 3162
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 2671,
+     "min": 2623,
+     "max": 2718
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3007,
+     "min": 2756,
+     "max": 3007
+    }
+   },
+   {
+    "rows": 1000000,
+    "gb": 0.16,
+    "method": "swap",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 160,
+     "min": 152,
+     "max": 178
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 3222,
+     "min": 3027,
+     "max": 3259
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 2735,
+     "min": 2587,
+     "max": 2794
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3005,
+     "min": 2756,
+     "max": 3007
+    }
+   },
+   {
+    "rows": 1000000,
+    "gb": 0.16,
+    "method": "dump-restore",
+    "runs": 3,
+    "statsRows": [
+     0
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 172,
+     "min": 154,
+     "max": 190
+    },
+    "allDataChecksOk": true,
+    "writeFreezeMs": {
+     "n": 3,
+     "median": 4747,
+     "min": 4654,
+     "max": 4895
+    }
+   },
+   {
+    "rows": 10000000,
+    "gb": 1.58,
+    "method": "copy",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 1167,
+     "min": 404,
+     "max": 1589
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 7819,
+     "min": 7094,
+     "max": 7960
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 6644,
+     "min": 5993,
+     "max": 6860
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 7519,
+     "min": 7016,
+     "max": 7768
+    }
+   },
+   {
+    "rows": 10000000,
+    "gb": 1.58,
+    "method": "link",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 400,
+     "min": 400,
+     "max": 466
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 4059,
+     "min": 3437,
+     "max": 4246
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 3259,
+     "min": 2664,
+     "max": 3270
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3758,
+     "min": 3256,
+     "max": 4010
+    }
+   },
+   {
+    "rows": 10000000,
+    "gb": 1.58,
+    "method": "swap",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 362,
+     "min": 332,
+     "max": 458
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 3919,
+     "min": 3474,
+     "max": 4085
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 2824,
+     "min": 2740,
+     "max": 3225
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3758,
+     "min": 3257,
+     "max": 4010
+    }
+   },
+   {
+    "rows": 10000000,
+    "gb": 1.58,
+    "method": "dump-restore",
+    "runs": 3,
+    "statsRows": [
+     0
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 446,
+     "min": 406,
+     "max": 454
+    },
+    "allDataChecksOk": true,
+    "writeFreezeMs": {
+     "n": 3,
+     "median": 47400,
+     "min": 45329,
+     "max": 49834
+    }
+   },
+   {
+    "rows": 10000000,
+    "gb": 1.58,
+    "method": "logical",
+    "runs": 3,
+    "statsRows": [
+     0
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 356,
+     "min": 347,
+     "max": 356
+    },
+    "allDataChecksOk": true,
+    "initialSyncMs": {
+     "n": 3,
+     "median": 39466,
+     "min": 38463,
+     "max": 40474
+    },
+    "writeGapMs": {
+     "n": 3,
+     "median": 51,
+     "min": 38,
+     "max": 66
+    },
+    "eventsLost": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "rows": 30000000,
+    "gb": 4.71,
+    "method": "copy",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 928,
+     "min": 909,
+     "max": 1004
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 17869,
+     "min": 16626,
+     "max": 18509
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 17472,
+     "min": 15803,
+     "max": 18106
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 17783,
+     "min": 16536,
+     "max": 18275
+    }
+   },
+   {
+    "rows": 30000000,
+    "gb": 4.71,
+    "method": "link",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 1056,
+     "min": 869,
+     "max": 1219
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 3409,
+     "min": 2933,
+     "max": 3619
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 2502,
+     "min": 2497,
+     "max": 2771
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3254,
+     "min": 2755,
+     "max": 3507
+    }
+   },
+   {
+    "rows": 30000000,
+    "gb": 4.71,
+    "method": "swap",
+    "runs": 3,
+    "statsRows": [
+     4
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 889,
+     "min": 870,
+     "max": 908
+    },
+    "allDataChecksOk": true,
+    "downMs": {
+     "n": 3,
+     "median": 3238,
+     "min": 2973,
+     "max": 3272
+    },
+    "upgradeMs": {
+     "n": 3,
+     "median": 2455,
+     "min": 2440,
+     "max": 2553
+    },
+    "probeOutageMs": {
+     "n": 3,
+     "median": 3003,
+     "min": 2755,
+     "max": 3003
+    }
+   },
+   {
+    "rows": 30000000,
+    "gb": 4.71,
+    "method": "dump-restore",
+    "runs": 3,
+    "statsRows": [
+     0
+    ],
+    "analyzeMs": {
+     "n": 3,
+     "median": 1231,
+     "min": 1084,
+     "max": 1323
+    },
+    "allDataChecksOk": true,
+    "writeFreezeMs": {
+     "n": 3,
+     "median": 143624,
+     "min": 138966,
+     "max": 146781
+    }
+   }
+  ]
+ },
+ "localClone": [
+  {
+   "rows": 1000000,
+   "strategy": "wal_log",
+   "gb": 0.16,
+   "ms": {
+    "n": 3,
+    "median": 664,
+    "min": 664,
+    "max": 701
+   }
+  },
+  {
+   "rows": 1000000,
+   "strategy": "file_copy",
+   "gb": 0.16,
+   "ms": {
+    "n": 3,
+    "median": 284,
+    "min": 249,
+    "max": 298
+   }
+  },
+  {
+   "rows": 10000000,
+   "strategy": "wal_log",
+   "gb": 1.58,
+   "ms": {
+    "n": 3,
+    "median": 8652,
+    "min": 8490,
+    "max": 8940
+   }
+  },
+  {
+   "rows": 10000000,
+   "strategy": "file_copy",
+   "gb": 1.58,
+   "ms": {
+    "n": 3,
+    "median": 2988,
+    "min": 2947,
+    "max": 3738
+   }
+  },
+  {
+   "rows": 30000000,
+   "strategy": "wal_log",
+   "gb": 4.71,
+   "ms": {
+    "n": 3,
+    "median": 28633,
+    "min": 27379,
+    "max": 28984
+   }
+  },
+  {
+   "rows": 30000000,
+   "strategy": "file_copy",
+   "gb": 4.71,
+   "ms": {
+    "n": 3,
+    "median": 12364,
+    "min": 12296,
+    "max": 13253
+   }
+  }
+ ]
+}

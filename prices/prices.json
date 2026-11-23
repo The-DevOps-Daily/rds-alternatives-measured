@@ -1,0 +1,483 @@
+{
+ "verifiedOn": "2026-11-23",
+ "note": "List prices in USD, US East, on demand. Each item quotes the page or API it was read from on verifiedOn.",
+ "items": {
+  "rds.db.t4g.medium.singleAZ.hourly": {
+   "value": 0.065,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$ 0.065 per RDS db.t4g.medium Single-AZ instance hour (or partial hour) running PostgreSQL"
+  },
+  "rds.db.m7g.large.multiAZ.hourly": {
+   "value": 0.337,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$ 0.337 per RDS db.m7g.large Multi-AZ instance hour (or partial hour) running PostgreSQL"
+  },
+  "rds.db.m7g.2xlarge.multiAZ.hourly": {
+   "value": 1.348,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$ 1.348 per RDS db.m7g.2xlarge Multi-AZ instance hour (or partial hour) running PostgreSQL"
+  },
+  "rds.gp3.singleAZ.gbMonth": {
+   "value": 0.115,
+   "unit": "USD/GB-month",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$0.115 per GB-month of provisioned GP3 storage running PostgreSQL"
+  },
+  "rds.gp3.multiAZ.gbMonth": {
+   "value": 0.23,
+   "unit": "USD/GB-month",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$0.23 per GB-month of provisioned GP3 storage for Multi-AZ deployments running PostgreSQL"
+  },
+  "rds.extendedSupport.yr1yr2.vcpuHour": {
+   "value": 0.1,
+   "unit": "USD/vCPU-hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 0.10 per hour per vCPU running RDS Extended Support for PostgreSQL 13 in Year 1, Year 2 (same for 10, 11, 12)"
+  },
+  "rds.extendedSupport.yr3.vcpuHour": {
+   "value": 0.2,
+   "unit": "USD/vCPU-hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 0.20 per hour per vCPU running RDS Extended Support for PostgreSQL 13 in Year 3 (same for 10, 11, 12)"
+  },
+  "rds.db.t4g.cpuCredits.vcpuHour": {
+   "value": 0.075,
+   "unit": "USD/vCPU-hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 0.075 per vCPU-Hour of T4g CPU Credits (PostgreSQL)"
+  },
+  "rds.backup.freeAllowance": {
+   "value": "100% of total database storage per region",
+   "unit": "rule",
+   "url": "https://aws.amazon.com/rds/faqs/",
+   "quote": "There is no additional charge for backup storage up to 100% of your total database storage for a region"
+  },
+  "aurora.db.t4g.medium.ioOptimized.hourly": {
+   "value": 0.095,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 0.095 per RDS db.t4g.medium IO-optimized Single-AZ instance hour (or partial hour) running Aurora PostgreSQL."
+  },
+  "aurora.db.r7g.large.ioOptimized.hourly": {
+   "value": 0.359,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 0.359 per RDS db.r7g.large IO-optimized Single-AZ instance hour (or partial hour) running Aurora PostgreSQL."
+  },
+  "aurora.db.r7g.2xlarge.ioOptimized.hourly": {
+   "value": 1.437,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 1.437 per RDS db.r7g.2xlarge IO-optimized Single-AZ instance hour (or partial hour) running Aurora PostgreSQL."
+  },
+  "aurora.storage.ioOptimized.gbMonth": {
+   "value": 0.225,
+   "unit": "USD/GB-month",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "USD 0.225 per GB-month of I/O-Optimized consumed storage (Aurora PostgreSQL)"
+  },
+  "aurora.db.t4g.medium.standard.hourly": {
+   "value": 0.073,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$ 0.073 per RDS db.t4g.medium Single-AZ instance hour (or partial hour) running Aurora PostgreSQL"
+  },
+  "aurora.db.r7g.large.standard.hourly": {
+   "value": 0.276,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$ 0.276 per RDS db.r7g.large Single-AZ instance hour (or partial hour) running Aurora PostgreSQL"
+  },
+  "aurora.db.r7g.2xlarge.standard.hourly": {
+   "value": 1.106,
+   "unit": "USD/hour",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$ 1.106 per RDS db.r7g.2xlarge Single-AZ instance hour (or partial hour) running Aurora PostgreSQL"
+  },
+  "aurora.storage.standard.gbMonth": {
+   "value": 0.1,
+   "unit": "USD/GB-month",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$0.10 per GB-month of consumed storage (Aurora PostgreSQL)"
+  },
+  "aurora.io.standard.perMillion": {
+   "value": 0.2,
+   "unit": "USD/million requests",
+   "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRDS/20261120224619/us-east-1/index.json",
+   "quote": "$0.20 per 1 million I/O requests (Aurora PostgreSQL)"
+  },
+  "cloudsql.enterprise.vcpuHour": {
+   "value": 0.0413,
+   "unit": "USD/vCPU-hour",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "South Carolina (us-east1), Enterprise edition General Purpose: vCPUs $0.0413 / 1 hour"
+  },
+  "cloudsql.enterprise.memGibHour": {
+   "value": 0.007,
+   "unit": "USD/GiB-hour",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "Memory $0.007 / 1 gibibyte hour"
+  },
+  "cloudsql.enterprise.ha.vcpuHour": {
+   "value": 0.0826,
+   "unit": "USD/vCPU-hour",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "HA vCPUs $0.0826 / 1 hour"
+  },
+  "cloudsql.enterprise.ha.memGibHour": {
+   "value": 0.014,
+   "unit": "USD/GiB-hour",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "HA Memory $0.014 / 1 gibibyte hour"
+  },
+  "cloudsql.ssd.gbMonth": {
+   "value": 0.17,
+   "unit": "USD/GiB-month",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "SSD storage capacity $0.17 / 1 gibibyte month (us-east1)"
+  },
+  "cloudsql.ssd.ha.gbMonth": {
+   "value": 0.34,
+   "unit": "USD/GiB-month",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "HA Storage: SSD storage capacity $0.34 / 1 gibibyte month"
+  },
+  "cloudsql.extendedSupport.yr1yr2.vcpuHour": {
+   "value": 0.07,
+   "unit": "USD/vCPU-hour",
+   "url": "https://cloud.google.com/sql/pricing",
+   "quote": "Extended support price Year 1 & Year 2: vCPUs $0.07 / 1 hour (HA $0.14)"
+  },
+  "azure.B2s.hourly": {
+   "value": 0.068,
+   "unit": "USD/hour",
+   "url": "https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Azure Database for PostgreSQL' and armRegionName eq 'eastus' and priceType eq 'Consumption'",
+   "quote": "Burstable BS Series Compute | B2S | 0.068 | 1 Hour"
+  },
+  "azure.D2ds_v5.hourly": {
+   "value": 0.178,
+   "unit": "USD/hour",
+   "url": "https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Azure Database for PostgreSQL' and armRegionName eq 'eastus' and priceType eq 'Consumption'",
+   "quote": "General Purpose Ddsv5 Series Compute | 2 vCore | 0.178 | 1 Hour"
+  },
+  "azure.D8ds_v5.hourly": {
+   "value": 0.712,
+   "unit": "USD/hour",
+   "url": "https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Azure Database for PostgreSQL' and armRegionName eq 'eastus' and priceType eq 'Consumption'",
+   "quote": "General Purpose Ddsv5 Series Compute | 8 vCore | 0.712 | 1 Hour"
+  },
+  "azure.storage.premiumSSD.gbMonth": {
+   "value": 0.115,
+   "unit": "USD/GB-month",
+   "url": "https://prices.azure.com/api/retail/prices?$filter=armRegionName eq 'eastus' and priceType eq 'Consumption' and contains(productName,'PostgreSQL') and contains(productName,'Storage')",
+   "quote": "Azure Database for PostgreSQL Flex Server Storage | Storage | Storage Data Stored | 0.115 | 1 GB/Month"
+  },
+  "azure.ha.billing": {
+   "value": "2x compute and 2x storage",
+   "unit": "rule",
+   "url": "https://azure.microsoft.com/en-us/pricing/details/postgresql/flexible-server/",
+   "quote": "Your zone redundant HA server will be billed for 8 vCores and 1,024 GiB of storage."
+  },
+  "digitalocean.standard.basic.regular.2-4.monthly": {
+   "value": 48,
+   "unit": "USD/month (compute only)",
+   "url": "https://www.digitalocean.com/pricing/managed-databases",
+   "quote": "slug 2-4-80-dd, 4 GiB, 2 vCPU, disk min 60 max 120, primary monthly 48, standby monthly 48"
+  },
+  "digitalocean.storage.standard.gibMonth": {
+   "value": 0.215,
+   "unit": "USD/GiB-month",
+   "url": "https://www.digitalocean.com/pricing/managed-databases",
+   "quote": "$0.215/GiB/mo, 10 GiB increments (extras.storage.postgreSQL.standard monthly 0.215, standby 0.215)"
+  },
+  "digitalocean.advanced.generalPurpose.2-8.monthly": {
+   "value": 130,
+   "unit": "USD/month (compute only)",
+   "url": "https://www.digitalocean.com/pricing/managed-databases",
+   "quote": "slug a-g-2-8-50-dd, 8 GiB, 2 vCPU, disk 50-800, primary 130, standby 130"
+  },
+  "digitalocean.advanced.generalPurpose.8-32.monthly": {
+   "value": 520,
+   "unit": "USD/month (compute only)",
+   "url": "https://www.digitalocean.com/pricing/managed-databases",
+   "quote": "slug a-g-8-32-200-dd, 32 GiB, 8 vCPU, disk 200-3200, primary 520, standby 520"
+  },
+  "digitalocean.storage.advanced.gibMonth": {
+   "value": 0.115,
+   "unit": "USD/GiB-month",
+   "url": "https://www.digitalocean.com/pricing/managed-databases",
+   "quote": "extras.storage.postgreSQL.advanced price monthly 0.115 (primary and standby)"
+  },
+  "digitalocean.standbyNodes": {
+   "value": "0, 1 or 2 standby nodes at the primary price",
+   "unit": "rule",
+   "url": "https://www.digitalocean.com/pricing/managed-databases",
+   "quote": "Additional nodes: 0 1 2; JSON 'standby':[1,2] with standby price equal to primary"
+  },
+  "supabase.pro.base.monthly": {
+   "value": 25,
+   "unit": "USD/month",
+   "url": "https://supabase.com/pricing",
+   "quote": "Pro $ 25 /month"
+  },
+  "supabase.pro.computeCredit.monthly": {
+   "value": 10,
+   "unit": "USD/month",
+   "url": "https://supabase.com/pricing",
+   "quote": "Paid plans include $10/mo in compute credits"
+  },
+  "supabase.compute.medium": {
+   "value": 0.0822,
+   "unit": "USD/hour",
+   "url": "https://supabase.com/docs/guides/platform/compute-and-disk",
+   "quote": "Medium $ 0.0822 ~ $ 60 Shared 4 GB"
+  },
+  "supabase.compute.large": {
+   "value": 0.1517,
+   "unit": "USD/hour",
+   "url": "https://supabase.com/docs/guides/platform/compute-and-disk",
+   "quote": "Large $ 0.1517 ~ $ 110 Dedicated \u00b7 2 vCPUs 8 GB"
+  },
+  "supabase.compute.2xl": {
+   "value": 0.562,
+   "unit": "USD/hour",
+   "url": "https://supabase.com/docs/guides/platform/compute-and-disk",
+   "quote": "2XL $ 0.562 ~ $ 410 Dedicated \u00b7 8 vCPUs 32 GB"
+  },
+  "supabase.disk.extra.gbMonth": {
+   "value": 0.125,
+   "unit": "USD/GB-month",
+   "url": "https://supabase.com/pricing",
+   "quote": "8 GB disk size per project then $0.125 per GB"
+  },
+  "supabase.disk.pro.included": {
+   "value": "8 GB",
+   "unit": "GB",
+   "url": "https://supabase.com/pricing",
+   "quote": "8 GB disk size per project then $0.125 per GB"
+  },
+  "neon.launch.cuHour": {
+   "value": 0.106,
+   "unit": "USD/CU-hour",
+   "url": "https://neon.com/pricing",
+   "quote": "Launch Usage-based ... $0.106 per CU-hour Up to 16 CU (64 GB RAM)"
+  },
+  "neon.scale.cuHour": {
+   "value": 0.222,
+   "unit": "USD/CU-hour",
+   "url": "https://neon.com/pricing",
+   "quote": "Scale Usage-based ... $0.222 per CU-hour Up to 56 CU (224 GB RAM)"
+  },
+  "neon.storage.gbMonth": {
+   "value": 0.35,
+   "unit": "USD/GB-month",
+   "url": "https://neon.com/pricing",
+   "quote": "$0.35 per GB-month"
+  },
+  "neon.monthlyMinimum": {
+   "value": 0,
+   "unit": "USD",
+   "url": "https://neon.com/pricing",
+   "quote": "Neon's paid plans don't require a minimum monthly spend or base fee."
+  },
+  "crunchy.bridge.aws.standard-4.monthly": {
+   "value": 70,
+   "unit": "USD/month",
+   "url": "https://www.crunchydata.com/pricing",
+   "quote": "Standard-4 1 4GB $70"
+  },
+  "crunchy.bridge.aws.standard-8.monthly": {
+   "value": 140,
+   "unit": "USD/month",
+   "url": "https://www.crunchydata.com/pricing",
+   "quote": "Standard-8 2 8GB $140"
+  },
+  "crunchy.bridge.aws.standard-32.monthly": {
+   "value": 560,
+   "unit": "USD/month",
+   "url": "https://www.crunchydata.com/pricing",
+   "quote": "Standard-32 8 32GB $560"
+  },
+  "crunchy.bridge.storage.gbMonth": {
+   "value": 0.1,
+   "unit": "USD/GB-month",
+   "url": "https://www.crunchydata.com/pricing",
+   "quote": "Storage costs are $0.10 per GB."
+  },
+  "crunchy.bridge.ha.multiplier": {
+   "value": 2.0,
+   "unit": "x",
+   "url": "https://docs.crunchybridge.com/concepts/plans-pricing",
+   "quote": "doubles the cluster price"
+  },
+  "aiven.startup-4.hourly": {
+   "value": 0.136,
+   "unit": "USD/hour",
+   "url": "https://api.aiven.io/v1/service_types",
+   "quote": "startup-4 node_count 1, 2 CPU, 4096 MB, 81920 MB disk, price_usd 0.136"
+  },
+  "aiven.business-8.hourly": {
+   "value": 0.61,
+   "unit": "USD/hour",
+   "url": "https://api.aiven.io/v1/service_types",
+   "quote": "business-8 node_count 2, 2 CPU, 8 GB, 175 GB, price_usd 0.610"
+  },
+  "aiven.business-32.hourly": {
+   "value": 1.836,
+   "unit": "USD/hour",
+   "url": "https://api.aiven.io/v1/service_types",
+   "quote": "business-32 node_count 2, 4 CPU, 30 GB, 700 GB, price_usd 1.836"
+  },
+  "aiven.business-64.hourly": {
+   "value": 3.425,
+   "unit": "USD/hour",
+   "url": "https://api.aiven.io/v1/service_types",
+   "quote": "business-64 node_count 2, 8 CPU, 61 GB, 1000 GB, price_usd 3.425"
+  },
+  "aiven.extraDisk.business.gbHour": {
+   "value": 0.001369863014,
+   "unit": "USD/GB-hour",
+   "url": "https://api.aiven.io/v1/service_types",
+   "quote": "disk_space_gb_price_usd 0.001369863014 (about $1.00/GB-month, covers both nodes)"
+  },
+  "planetscale.PS-40-ARM.single.monthly": {
+   "value": 28,
+   "unit": "USD/month",
+   "url": "https://planetscale.com/pricing.md",
+   "quote": "Postgres EBS non-HA: PS-40 arm64 1/2 vCPU 4 GiB $28"
+  },
+  "planetscale.PS-160-ARM.ha.monthly": {
+   "value": 286,
+   "unit": "USD/month",
+   "url": "https://planetscale.com/pricing.md",
+   "quote": "PS-160 arm64 2 vCPU 16 GiB $286"
+  },
+  "planetscale.PS-640-ARM.ha.monthly": {
+   "value": 1135,
+   "unit": "USD/month",
+   "url": "https://planetscale.com/pricing.md",
+   "quote": "PS-640 arm64 8 vCPU 64 GiB $1,135"
+  },
+  "planetscale.PS-320-ARM.ha.monthly": {
+   "value": 570,
+   "unit": "USD/month",
+   "url": "https://planetscale.com/pricing.md",
+   "quote": "PS-320 arm64 4 vCPU 32 GiB $570"
+  },
+  "planetscale.storage.ebs.gbMonth": {
+   "value": 0.125,
+   "unit": "USD/GB-month per instance",
+   "url": "https://api.planetscale.com/www/storage-rates?region=us-east",
+   "quote": "{\"rate\":\"0.125\"} (AWS us-east gp3 volume rate)"
+  },
+  "xata.medium.hourly": {
+   "value": 0.048,
+   "unit": "USD/hour",
+   "url": "https://xata.io/pricing.md",
+   "quote": "us-east-1 medium <=2 vCPU 4 GiB 0.048 /hr 35 /month"
+  },
+  "xata.large.hourly": {
+   "value": 0.096,
+   "unit": "USD/hour",
+   "url": "https://xata.io/pricing.md",
+   "quote": "large 2 vCPU 8 GiB 0.096 /hr 70 /month"
+  },
+  "xata.2xlarge.hourly": {
+   "value": 0.384,
+   "unit": "USD/hour",
+   "url": "https://xata.io/pricing.md",
+   "quote": "2xlarge 8 vCPU 32 GiB 0.384 /hr 280 /month"
+  },
+  "xata.storage.gbMonth": {
+   "value": 0.28,
+   "unit": "USD/GB-month",
+   "url": "https://xata.io/pricing.md",
+   "quote": "storage_rate 0.28 USD/GB/month (us-east-1 multiplier 1.0)"
+  },
+  "azure.storage.premiumSSD.sizes": {
+   "value": "32, 64, 128, 256, 512 GiB, 1 TiB, ...",
+   "unit": "fixed disk sizes",
+   "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-storage",
+   "quote": "Disk size Premium SSD IOPS ... 32 GiB Provisioned 120 ... 64 GiB Provisioned 240 ... 256 GiB Provisioned 1,100 ... 1 TiB 5,000"
+  }
+ },
+ "providers": {
+  "rds": "Amazon RDS for PostgreSQL (us-east-1)",
+  "aurora": "Amazon Aurora PostgreSQL (us-east-1)",
+  "cloudsql": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
+  "azure": "Azure Database for PostgreSQL Flexible Server (eastus)",
+  "digitalocean": "DigitalOcean Managed PostgreSQL",
+  "supabase": "Supabase",
+  "neon": "Neon (Lakebase Postgres, part of Databricks)",
+  "crunchy": "Crunchy Bridge (Crunchy Data, acquired by Snowflake) and Snowflake Postgres",
+  "aiven": "Aiven for PostgreSQL (aws-us-east-1)",
+  "planetscale": "PlanetScale Postgres (AWS us-east-1)",
+  "xata": "Xata (Xata Cloud)"
+ },
+ "freeTiers": {
+  "rds": {
+   "exists": true,
+   "details": "New accounts (since July 15, 2025): Free plan up to 6 months, $100 credits at sign-up plus up to $100 more from activities ($200 total); RDS Free plan on db.t3.micro / db.t4g.micro for PostgreSQL; account closes after 6 months or when credits run out unless converted to Paid. Accounts opened before July 15, 2025 keep the legacy 12-month free tier (pricing page text: 750 hours Single-AZ, 20 GB gp2, 20 GB backups).",
+   "url": "https://aws.amazon.com/rds/free/"
+  },
+  "aurora": {
+   "exists": true,
+   "details": "Free plan (new accounts, up to 6 months, shares the $100-$200 AWS credits): Aurora PostgreSQL 'up to 4 Aurora Capacity Units (ACU) and 1 GiB of storage per cluster'. Aurora DSQL is listed as always free (100k DPU and 1 GiB per month), but DSQL is not Aurora PostgreSQL.",
+   "url": "https://aws.amazon.com/rds/free/"
+  },
+  "cloudsql": {
+   "exists": true,
+   "details": "No always-free Cloud SQL. New Google Cloud customers get $300 in free credits. Separate Cloud SQL free trial instance: 30 days, Enterprise Plus edition, 8 vCPUs and 64 GB memory (N2), 100 GB storage; stops serving at the end, 90-day grace period; one per new project.",
+   "url": "https://docs.cloud.google.com/sql/docs/postgres/free-trial-instance"
+  },
+  "azure": {
+   "exists": true,
+   "details": "12 months free for new Azure customers: '750 hours of Flexible Server - Burstable B1MS Instance, 32 GB storage, and 32 GB backup storage'. Free account also gives '$200 credit to use on Azure services within 30 days'.",
+   "url": "https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account"
+  },
+  "digitalocean": {
+   "exists": false,
+   "details": "No free managed database plan listed on the pricing page. Pricing FAQ only mentions an example promotional credit ('if you received a $5 credit for 90 days').",
+   "url": "https://www.digitalocean.com/pricing/managed-databases"
+  },
+  "supabase": {
+   "exists": true,
+   "details": "Free $0: 500 MB database size, Shared CPU and 500 MB RAM, 5 GB egress, 1 GB file storage, limit of 2 active projects, 'Free projects are paused after 1 week of inactivity.' No backups or PITR.",
+   "url": "https://supabase.com/pricing"
+  },
+  "neon": {
+   "exists": true,
+   "details": "Free $0, no time limit, no card: 100 projects, 100 CU-hours monthly per project, 1 GB storage per project, sizes up to 2 CU (8 GB RAM), scale to zero after 5 minutes inactive, restore window up to 6 hours or 1 GB of changes.",
+   "url": "https://neon.com/pricing"
+  },
+  "crunchy": {
+   "exists": false,
+   "details": "No free plan on the Crunchy pricing page; cheapest Hobby-0 is $9/month. Hobby plans 'do not support High availability standbys'.",
+   "url": "https://www.crunchydata.com/pricing"
+  },
+  "aiven": {
+   "exists": true,
+   "details": "Free $0: 1 CPU, 1 GB RAM, 1 GB storage, cannot select cloud/region, no connection pooling. 'Free services do not have any time limitations' but are powered off with no initial usage in the first few hours or no continued activity (notice sent first).",
+   "url": "https://aiven.io/docs/platform/concepts/free-plan"
+  },
+  "planetscale": {
+   "exists": false,
+   "details": "No free plan listed for Postgres; cheapest is single-node PS-5 at $5/month.",
+   "url": "https://planetscale.com/pricing"
+  },
+  "xata": {
+   "exists": false,
+   "details": "'Is there a free tier? No. Our core platform is available under Apache 2.0. Xata Cloud offers a free trial.' Trial length not stated.",
+   "url": "https://xata.io/pricing.md"
+  },
+  "tembo": {
+   "exists": false,
+   "details": "No hosted Postgres product today; tembo.io now sells a cloud coding-agent product.",
+   "url": "https://www.tembo.io/"
+  }
+ }
+}
