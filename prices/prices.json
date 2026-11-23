@@ -439,6 +439,24 @@
    "unit": "USD/GB-month",
    "url": "https://neon.com/pricing",
    "quote": "Instant restore ... $0.20/GB-month (Launch and Scale); history window"
+  },
+  "crunchy.bridge.aws.hobby-4.monthly": {
+   "value": 70,
+   "unit": "USD/month",
+   "url": "https://www.crunchydata.com/pricing",
+   "quote": "Hobby-4 1 4GB $70"
+  },
+  "crunchy.bridge.hobby-4.docs": {
+   "value": "Hobby-4: 2 burstable cores, 4 GB",
+   "unit": "spec",
+   "url": "https://docs.crunchybridge.com/concepts/plans-pricing",
+   "quote": "Hobby-4 listed with 2 (burstable) cores and 4 GB; the crunchydata.com pricing page lists Hobby-4 with 1 core"
+  },
+  "rds.extendedSupport.multiAZ": {
+   "value": "charged on the standby too",
+   "unit": "rule",
+   "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support-charges.html",
+   "quote": "RDS Extended Support charges apply to standby instances in Multi-AZ deployments."
   }
  },
  "providers": {
@@ -488,7 +506,7 @@
   },
   "neon": {
    "exists": true,
-   "details": "Free $0, no time limit, no card: 100 projects, 100 CU-hours monthly per project, 1 GB storage per project, sizes up to 2 CU (8 GB RAM), scale to zero after 5 minutes inactive, restore window up to 6 hours or 1 GB of changes.",
+   "details": "Free $0, no time limit, no card: 100 projects, 100 CU-hours monthly per project, 1 GB storage per project, sizes up to 2 CU (8 GB RAM), scale to zero after 5 minutes inactive, restore window up to 6 hours or 1 GB of changes; 100 CU-hours is per project per month; Free storage is capped at 20 GB across all projects (https://neon.com/docs/introduction/plans).",
    "url": "https://neon.com/pricing"
   },
   "crunchy": {

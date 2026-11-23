@@ -52,7 +52,7 @@ if (has("02-neon-major-upgrade")) {
     allDataChecksOk: rs.every((r) => r.fingerprintOk),
   }));
   md += "\n## Neon, Postgres 17 to 18 by pg_dump and pg_restore into a new project\n\n| pg_dump flags | Runs | Dump | Dump size | Restore | Dump + restore (median) | pg_stats rows after restore | ANALYZE |\n|---|---:|---:|---:|---:|---:|---|---:|\n";
-  for (const s of summary.neonUpgrade) md += `| ${s.variant === "default" ? "defaults" : "--statistics"} | ${s.freezeMs.n} | ${(s.dumpMs.median / 1000).toFixed(1)} s | ${s.dumpMb} MB | ${(s.restoreMs.median / 1000).toFixed(1)} s | ${(s.freezeMs.median / 1000).toFixed(1)} s | ${s.statsAfterRestore.join(", ")} | ${(s.analyzeMs.median / 1000).toFixed(1)} s |\n`;
+  for (const s of summary.neonUpgrade) md += `| ${s.variant === "default" ? "defaults" : "--statistics"} | ${s.freezeMs.n} | ${(s.dumpMs.median / 1000).toFixed(1)} s | ${s.dumpMb} MiB | ${(s.restoreMs.median / 1000).toFixed(1)} s | ${(s.freezeMs.median / 1000).toFixed(1)} s | ${s.statsAfterRestore.join(", ")} | ${(s.analyzeMs.median / 1000).toFixed(1)} s |\n`;
 }
 
 if (has("03-supabase-free")) {

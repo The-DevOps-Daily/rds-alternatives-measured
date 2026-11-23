@@ -1,7 +1,7 @@
-// Stage 5: what a clone costs when it copies the data. CREATE DATABASE ...
-// TEMPLATE copies every file of the source database, so its time grows with
-// the size, the way restoring a snapshot into a new instance does. Compare it
-// with the branch times in stage 1.
+// Stage 5: what a local clone costs when it copies the data. CREATE
+// DATABASE ... TEMPLATE copies every file of the source database on this
+// server. It is a local template copy, not a model of a managed restore
+// (those provision an instance, and some load blocks lazily).
 //
 //   SIZES=1000000,10000000,30000000 RUNS=3 node scripts/05-local-clone.mjs
 import { mkdirSync } from "node:fs";

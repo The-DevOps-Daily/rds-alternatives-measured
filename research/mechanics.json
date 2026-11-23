@@ -657,7 +657,7 @@
     "selfService": true,
     "downtimeClaim": "Depends on migration method: 'Some' for dump/restore and the Import Data Assistant, 'Near zero' for logical replication.",
     "statistics": "not verified (not mentioned; a fresh restore/replication target needs ANALYZE per standard Postgres behaviour, but Neon docs do not say)",
-    "rollback": "Old project remains until you delete it, so rollback is pointing apps back (implied, not stated).",
+    "rollback": "The old project remains until you delete it. It is a copy as of the cut-over, not a rollback: writes made on the new project after the switch are not in it and must be reconciled or replicated back (our reading; Neon's docs do not state a rollback).",
     "latestMajor": "19 (19.0 available 2026-11-19, same day as community release); 18 is the default.",
     "sources": [
      {
@@ -972,7 +972,7 @@
     "selfService": true,
     "downtimeClaim": "Depends on the migration (online import); not quantified.",
     "statistics": "not verified",
-    "rollback": "Old database remains until deleted (implied, not stated).",
+    "rollback": "The old database remains until you delete it, as a copy as of the cut-over; writes made after the switch are not in it (our reading, not stated).",
     "latestMajor": "18 (18.7); supports 17 and 18 only.",
     "sources": [
      {
@@ -1037,8 +1037,8 @@
     ]
    },
    "majorUpgrade": {
-    "method": "Not supported. Branch settings allow minor version upgrades only.",
-    "selfService": false,
+    "method": "Not through branch settings, which allow minor version upgrades only. Other migration paths (for example a new branch plus dump and restore) not verified.",
+    "selfService": null,
     "downtimeClaim": "n/a",
     "statistics": "n/a",
     "rollback": "n/a",

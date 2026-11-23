@@ -11,8 +11,8 @@
 
 | pg_dump flags | Runs | Dump | Dump size | Restore | Dump + restore (median) | pg_stats rows after restore | ANALYZE |
 |---|---:|---:|---:|---:|---:|---|---:|
-| defaults | 3 | 46.8 s | 275 MB | 11.7 s | 58.4 s | 0 | 0.2 s |
-| --statistics | 3 | 45.7 s | 275 MB | 11.7 s | 57.6 s | 4 | 0.2 s |
+| defaults | 3 | 46.8 s | 275 MiB | 11.7 s | 58.4 s | 0 | 0.2 s |
+| --statistics | 3 | 45.7 s | 275 MiB | 11.7 s | 57.6 s | 4 | 0.2 s |
 
 ## Supabase Free
 
@@ -47,9 +47,9 @@ Medians. pg_upgrade rows: "stop to answer" is from stopping the old server to th
 
 | Rows | DB size | Strategy | Runs | Median |
 |---:|---:|---|---:|---:|
-| 1,000,000 | 0.16 GB | wal_log | 3 | 0.59 s |
-| 1,000,000 | 0.16 GB | file_copy | 3 | 0.26 s |
-| 10,000,000 | 1.58 GB | wal_log | 3 | 7.14 s |
-| 10,000,000 | 1.58 GB | file_copy | 3 | 2.23 s |
-| 30,000,000 | 4.71 GB | wal_log | 3 | 24.67 s |
-| 30,000,000 | 4.71 GB | file_copy | 3 | 10.72 s |
+| 1,000,000 | 0.16 GB | wal_log | 3 | 0.60 s |
+| 1,000,000 | 0.16 GB | file_copy | 3 | 0.21 s |
+| 10,000,000 | 1.58 GB | wal_log | 3 | 7.37 s |
+| 10,000,000 | 1.58 GB | file_copy | 3 | 2.37 s |
+| 30,000,000 | 4.71 GB | wal_log | 3 | 23.23 s |
+| 30,000,000 | 4.71 GB | file_copy | 3 | 11.42 s |

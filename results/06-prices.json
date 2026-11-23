@@ -28,7 +28,7 @@
     "plan": "Burstable B2s, Premium SSD",
     "ha": false,
     "monthlyUsd": 57,
-    "note": "Premium SSD comes in fixed sizes: 50 GB bills as 64 GiB. Burstable servers cannot have HA."
+    "note": "Premium SSD comes in fixed sizes: 50 GB (46.6 GiB) bills as 64 GiB. Burstable servers cannot have HA."
    },
    {
     "size": "S",
@@ -47,6 +47,15 @@
     "ha": false,
     "monthlyUsd": 60.9,
     "note": "60 GiB is the smallest disk on this plan."
+   },
+   {
+    "size": "S",
+    "provider": "crunchy",
+    "name": "Crunchy Bridge (Crunchy Data, acquired by Snowflake) and Snowflake Postgres",
+    "plan": "Crunchy Bridge Hobby-4 (4 GB, burstable)",
+    "ha": false,
+    "monthlyUsd": 75,
+    "note": "Crunchy's docs list Hobby-4 with 2 burstable cores, its pricing page with 1. With 2 dedicated cores (Standard-8, 8 GB) it is $145."
    },
    {
     "size": "S",
@@ -72,7 +81,7 @@
     "name": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
     "plan": "Enterprise, 2 vCPU / 4 GB, zonal, SSD",
     "ha": false,
-    "monthlyUsd": 89.24,
+    "monthlyUsd": 88.65,
     "note": ""
    },
    {
@@ -92,15 +101,6 @@
     "ha": false,
     "monthlyUsd": 101,
     "note": "8 GB of RAM per vCPU, so 2 vCPU means 16 GB. PS-40 (1/2 vCPU, 4 GB) would be $33."
-   },
-   {
-    "size": "S",
-    "provider": "crunchy",
-    "name": "Crunchy Bridge (Crunchy Data, acquired by Snowflake) and Snowflake Postgres",
-    "plan": "Crunchy Bridge Standard-8 (2 cores, 8 GB)",
-    "ha": false,
-    "monthlyUsd": 145,
-    "note": "No 2 core / 4 GB plan."
    },
    {
     "size": "S",
@@ -149,9 +149,9 @@
     "name": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
     "plan": "Enterprise, 2 vCPU / 8 GB, regional HA, SSD",
     "ha": true,
-    "monthlyUsd": 270.36,
+    "monthlyUsd": 265.68,
     "note": "",
-    "vsRds": 0.93
+    "vsRds": 0.91
    },
    {
     "size": "M",
@@ -179,9 +179,9 @@
     "name": "DigitalOcean Managed PostgreSQL",
     "plan": "Advanced, General Purpose 2 vCPU / 8 GB + one standby",
     "ha": true,
-    "monthlyUsd": 306,
+    "monthlyUsd": 303.7,
     "note": "New Standard clusters cannot have more than 4 GiB of RAM or a standby (new accounts since 15 Oct 2026, all accounts from 30 Nov 2026).",
-    "vsRds": 1.05
+    "vsRds": 1.04
    },
    {
     "size": "M",
@@ -190,7 +190,7 @@
     "plan": "General Purpose D2ds_v5, zone-redundant HA",
     "ha": true,
     "monthlyUsd": 318.76,
-    "note": "HA bills compute and storage twice; 200 GB bills as a 256 GiB disk.",
+    "note": "HA bills compute and storage twice; 200 GB (186.3 GiB) bills as a 256 GiB disk.",
     "vsRds": 1.09
    },
    {
@@ -217,11 +217,11 @@
     "size": "M",
     "provider": "aiven",
     "name": "Aiven for PostgreSQL (aws-us-east-1)",
-    "plan": "business-8 (2 CPU, 8 GB, 175 GiB + 30 GiB, one standby)",
+    "plan": "business-8 (2 CPU, 8 GB, 175 GiB + 20 GiB, one standby)",
     "ha": true,
-    "monthlyUsd": 475.3,
-    "note": "Disk grows in 10 GiB steps, so 200 GB is 205 GiB.",
-    "vsRds": 1.63
+    "monthlyUsd": 465.3,
+    "note": "Disk grows in 10 GiB steps: 200 GB is 186.3 GiB, so 175 + 20 GiB.",
+    "vsRds": 1.59
    },
    {
     "size": "M",
@@ -271,9 +271,9 @@
     "name": "Google Cloud SQL for PostgreSQL, Enterprise edition (us-east1)",
     "plan": "Enterprise, 8 vCPU / 32 GB, regional HA, SSD",
     "ha": true,
-    "monthlyUsd": 1149.42,
+    "monthlyUsd": 1126.07,
     "note": "",
-    "vsRds": 0.95
+    "vsRds": 0.93
    },
    {
     "size": "L",
@@ -301,9 +301,9 @@
     "name": "DigitalOcean Managed PostgreSQL",
     "plan": "Advanced, General Purpose 8 vCPU / 32 GB + one standby",
     "ha": true,
-    "monthlyUsd": 1270,
+    "monthlyUsd": 1256.2,
     "note": "",
-    "vsRds": 1.05
+    "vsRds": 1.03
    },
    {
     "size": "L",
@@ -312,7 +312,7 @@
     "plan": "General Purpose D8ds_v5, zone-redundant HA",
     "ha": true,
     "monthlyUsd": 1275.04,
-    "note": "1 TB bills as a 1 TiB disk.",
+    "note": "1 TB (931.3 GiB) bills as a 1 TiB disk.",
     "vsRds": 1.05
    },
    {
