@@ -11,6 +11,7 @@
   "scripts": {
     "neon-branch": "node scripts/01-neon-branch.mjs",
     "neon-upgrade": "node scripts/02-neon-major-upgrade.mjs",
+    "neon-restore": "node scripts/09-neon-restore.mjs",
     "supabase-free": "node scripts/03-supabase-free.mjs",
     "local-upgrade": "node scripts/04-local-upgrade.mjs",
     "local-clone": "node scripts/05-local-clone.mjs",

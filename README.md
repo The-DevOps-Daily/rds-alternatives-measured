@@ -7,6 +7,7 @@ cp .env.example .env          # Neon (paid plan) and Supabase (Free org) keys, s
 npm install
 npm run neon-branch           # stage 1: Neon branch time at two sizes (about 30 min)
 npm run neon-upgrade          # stage 2: Neon 17 -> 18 by pg_dump/pg_restore (about 10 min)
+npm run neon-restore          # stage 9: Neon instant restore after a DROP TABLE (about 4 min)
 npm run supabase-free         # stage 3: what a Supabase Free project allows (2 min)
 npm run local-upgrade         # stage 4: pg_upgrade copy/link/swap, dump-restore, logical (about 1.5 h)
 npm run local-clone           # stage 5: CREATE DATABASE ... TEMPLATE at three sizes
@@ -35,6 +36,7 @@ Every stage creates its cloud resources with a `bench-rdsalt-` name and deletes 
 | `03-supabase-free.mjs` | Creates a project in a Free organization and asks the Management API for its Postgres version, its upgrade eligibility, and a preview branch. Records the answers as they came back. |
 | `04-local-upgrade.mjs` | Postgres 17.12 to 18.7 on one machine, at 1M, 10M and 30M rows, three runs each: `pg_upgrade` in copy, link and swap mode (stop, upgrade, start, timed from a client that opens a new connection every 250 ms), `pg_dump`/`pg_restore` into a new server with and without `--statistics`, and logical replication into a new server followed by a cut-over while one writer inserts a row every 50 ms (the cut-over waits for a marker row to arrive, and failed inserts are counted). It starts with the data checksum trap (below). |
 | `05-local-clone.mjs` | `CREATE DATABASE ... TEMPLATE` with the `wal_log` and `file_copy` strategies: a local clone that copies every file. It is not a model of a managed restore, which provisions an instance and may load blocks lazily. |
+| `09-neon-restore.mjs` | Creates a Postgres 17 project, loads the 10M-row table, then five times: reads the server's clock, waits 2 s, runs `DROP TABLE accounts`, and restores the branch to that timestamp with Neon's instant restore API (`POST /projects/{id}/branches/{id}/restore`, the branch restored to its own history, with a backup branch). A run ends at the first query that reads the last row of the original table through the connection string the branch had before the restore. Then it checks the row count and per-row hash sum against the values taken before the first drop, and deletes the backup branch. |
 | `06-prices.mjs` | Builds each monthly price from the quoted items in `prices/prices.json` and the plan choices in `prices/plans.mjs`. |
 | `07-summarize.mjs` | Reads `results/*.jsonl` and writes the tables. It refuses a results file written by more than one version of the code. |
 | `08-verify-stamps.mjs` | Recomputes each script's code stamp and compares it with its results file. |
@@ -47,10 +49,11 @@ From our runs on 2026-11-23, every stage one after the other on a 4 vCPU Digital
 
 - **Neon branch**, request to the first query on the parent's data: median 2.70 s at 0.16 GB and 2.72 s at 1.58 GB, 10 runs each, every branch matched the parent's row count and per-row hash sum. Ten times the data, the same time.
 - **Neon, 17 to 18 by dump and restore** of 1.58 GB (about 275 MiB on disk): dump plus restore took a median 58.4 s with pg_dump's defaults and 57.6 s with `--statistics`. With the defaults the restored table had no planner statistics; with `--statistics` it had them.
+- **Neon instant restore** (run on 2026-11-27 from a 2 vCPU droplet in AMS3, because FRA1 had no droplet sizes available that day), 1.58 GB, `DROP TABLE` then restore to a timestamp 2 s before it: request to the first query that sees the original data took a median 9.71 s (8.42 to 15.32 s, 5 runs; the first run, right after the load, was the slowest). Neon's operations took a median 8.61 s of it. Every run matched the original row count and per-row hash sum, and the connection string did not change.
 - **Supabase Free**: new project on Postgres 17.12, upgrade eligibility `false` with no targets, and branch creation refused with HTTP 402 ("Branching is supported only on the Pro plan or above").
 - **Local, 17.12 to 18.7**, median from stopping the old server to the first answered connection on the new one, at 0.16 / 1.58 / 4.71 GB: `pg_upgrade --link` 3.5 / 3.6 / 3.4 s, `--swap` 3.2 / 3.4 / 3.1 s, `--copy` 3.5 / 6.7 / 15.8 s. Dump plus restore: 7.3 / 66.8 / 214.2 s. Logical replication copied 1.58 GB in 40.2 s while writes continued, and the cut-over gap was a median 102 ms with no acknowledged row lost. `pg_upgrade` and `pg_dump --statistics` kept the statistics in every run; default dump-restore and logical replication did not.
 - **Local clone** with `CREATE DATABASE ... STRATEGY file_copy`: 0.21 / 2.37 / 11.42 s. It grows with the data.
-- **Prices** (compute and storage) with a standby: M (2 vCPU / 8 GB / 200 GB) $266 to $319 on Cloud SQL, RDS ($289), Crunchy Bridge, DigitalOcean and Azure; L (8 vCPU / 32 GB / 1 TB) $1,126 to $1,275 on the same five (RDS $1,198), or up to $320 and $1,320 if Crunchy Bridge bills HA storage twice. Xata with one replica is $196 and $841, on an assumed replica price. Supabase and Neon are cheaper and have no standby.
+- **Prices** (compute and storage) with a standby: M (2 vCPU / 8 GB / 200 GB) $266 to $319 on Cloud SQL, RDS ($289), Crunchy Bridge, DigitalOcean and Azure; L (8 vCPU / 32 GB / 1 TB) $1,126 to $1,275 on the same five (RDS $1,198), or up to $320 and $1,320 if Crunchy Bridge bills HA storage twice. Xata with one replica is $196 and $841, on an assumed replica price. Supabase is cheaper with one node and no standby. Neon is cheaper with one compute and no standby compute; its storage is replicated across availability zones, and a failed compute is restarted or moved.
 
 `results/run1-superseded/` holds a first full run we threw away: its `pg_dump`/`pg_restore` connections used `sslmode=require` (no certificate check), its data check summed only two columns, and its filler was one repeated character, which compresses far better than real data. Every stage was run again after the fixes.
 
@@ -69,6 +72,7 @@ Reference sizes: S is about 2 vCPU / 4 GB with 50 GB and one node; M is about 2 
 - The `rollback` text recorded in stage 4 results says swap mode leaves the old cluster usable until the new one starts. That is wrong: swap mode changes the old cluster once it starts moving files. Link mode is the one that holds until the new server starts.
 - The logical replication cut-over is our script on one machine, one writer and one table. Its write gap shows the order of magnitude when the subscriber is caught up, not what a blue/green switchover on a managed service takes.
 - The Neon dump runs on the client and compresses there. Client-side compression may affect dump time; we did not isolate the bottleneck.
+- The Neon restore was timed at one size (1.58 GB), five runs, from AMS3 rather than FRA1, so it says nothing about how restore time changes with size. No RDS point-in-time restore was timed; RDS restores into a new DB instance.
 - The dataset is one table with one index. Upgrade times grow with the number of objects in a real schema.
 - New servers in stage 4 run with autovacuum off, so the `pg_stats` count shows what the upgrade carried over rather than what autovacuum analyzed later.
 

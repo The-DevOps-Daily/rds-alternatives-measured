@@ -108,6 +108,25 @@ if (has("05-local-clone")) {
   for (const r of summary.localClone) md += `| ${r.rows.toLocaleString("en-US")} | ${r.gb} GB | ${r.strategy} | ${r.ms.n} | ${(r.ms.median / 1000).toFixed(2)} s |\n`;
 }
 
+if (has("09-neon-restore")) {
+  const l = load("09-neon-restore");
+  const loaded = l.find((r) => r.type === "loaded");
+  const rs = l.filter((r) => r.type === "restore");
+  summary.neonRestore = {
+    rows: loaded.rows,
+    gb: +(loaded.size.database / 1e9).toFixed(2),
+    readyMs: stats(rs.map((r) => r.readyMs)),
+    apiMs: stats(rs.map((r) => r.apiMs)),
+    opsMs: stats(rs.map((r) => r.opsMs)),
+    fullScanMs: stats(rs.map((r) => r.fullScanMs)),
+    allDataChecksOk: rs.every((r) => r.edgeOk && r.fingerprintOk),
+    sameConnectionString: rs.every((r) => r.sameUri),
+  };
+  const s = summary.neonRestore;
+  md += `\n## Neon instant restore, DROP TABLE then restore the branch to a timestamp before it\n\n| Rows | DB size | Runs | Median | Min | Max | Operations done (median) | Full scan median | Data checks | Same connection string |\n|---:|---:|---:|---:|---:|---:|---:|---:|---|---|\n`;
+  md += `| ${s.rows.toLocaleString("en-US")} | ${s.gb} GB | ${s.readyMs.n} | ${(s.readyMs.median / 1000).toFixed(2)} s | ${(s.readyMs.min / 1000).toFixed(2)} s | ${(s.readyMs.max / 1000).toFixed(2)} s | ${(s.opsMs.median / 1000).toFixed(2)} s | ${(s.fullScanMs.median / 1000).toFixed(2)} s | ${s.allDataChecksOk ? "all passed" : "FAILED"} | ${s.sameConnectionString ? "yes" : "no"} |\n`;
+}
+
 writeFileSync(new URL("../results/summary.json", import.meta.url), JSON.stringify(summary, null, 1) + "\n");
 writeFileSync(new URL("../results/summary.md", import.meta.url), md);
 console.log(md);

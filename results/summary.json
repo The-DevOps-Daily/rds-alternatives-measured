@@ -686,5 +686,35 @@
     "max": 12572
    }
   }
- ]
+ ],
+ "neonRestore": {
+  "rows": 10000000,
+  "gb": 1.58,
+  "readyMs": {
+   "n": 5,
+   "median": 9714,
+   "min": 8419,
+   "max": 15318
+  },
+  "apiMs": {
+   "n": 5,
+   "median": 422,
+   "min": 366,
+   "max": 566
+  },
+  "opsMs": {
+   "n": 5,
+   "median": 8611,
+   "min": 7136,
+   "max": 13667
+  },
+  "fullScanMs": {
+   "n": 5,
+   "median": 14334,
+   "min": 13262,
+   "max": 15980
+  },
+  "allDataChecksOk": true,
+  "sameConnectionString": true
+ }
 }

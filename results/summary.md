@@ -53,3 +53,9 @@ Medians. pg_upgrade rows: "stop to answer" is from stopping the old server to th
 | 10,000,000 | 1.58 GB | file_copy | 3 | 2.37 s |
 | 30,000,000 | 4.71 GB | wal_log | 3 | 23.23 s |
 | 30,000,000 | 4.71 GB | file_copy | 3 | 11.42 s |
+
+## Neon instant restore, DROP TABLE then restore the branch to a timestamp before it
+
+| Rows | DB size | Runs | Median | Min | Max | Operations done (median) | Full scan median | Data checks | Same connection string |
+|---:|---:|---:|---:|---:|---:|---:|---:|---|---|
+| 10,000,000 | 1.58 GB | 5 | 9.71 s | 8.42 s | 15.32 s | 8.61 s | 14.33 s | all passed | yes |
